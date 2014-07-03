@@ -470,6 +470,6 @@ time tcpdump -nn -i eth0 'tcp[tcpflags] = tcp-syn' -c 10000 > /dev/null
 
 ## 参考资料
 
-> [http://www.wains.be/pub/networking/tcpdump_advanced_filters.txt](tcpdump advanced filters)
-
-- __Author__：潜水大叔san
+- [http://www.wains.be/pub/networking/tcpdump_advanced_filters.txt](tcpdump advanced filters)
+ 
+- __Author__：By 潜水大叔san
