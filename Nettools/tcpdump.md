@@ -1,4 +1,8 @@
-# tcpdump使用技巧
+# tcpdump使用技巧 
+
+- __Author__：By 潜水大叔
+
+------
 
 一般情况下，非HTTP协议的网络分析，在服务器端用`tcpdump`比较多，在客户端用wireshark比较多，两个抓包软件的语法是一样的。
 
@@ -471,5 +475,3 @@ time tcpdump -nn -i eth0 'tcp[tcpflags] = tcp-syn' -c 10000 > /dev/null
 ## 参考资料
 
 > [tcpdump advanced filters](http://www.wains.be/pub/networking/tcpdump_advanced_filters.txt)
- 
-- __Author__：By 潜水大叔
