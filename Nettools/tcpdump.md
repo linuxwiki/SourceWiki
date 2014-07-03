@@ -1,6 +1,4 @@
-# tcpdump使用技巧 
-
-- __Author__：By 潜水大叔
+# tcpdump使用技巧 By 潜水大叔
 
 ------
 
