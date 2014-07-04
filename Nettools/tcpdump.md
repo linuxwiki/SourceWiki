@@ -366,7 +366,7 @@ tcpdump -i eth1 'tcp[13] & 4 = 4'
 
 下图详细描述了TCP各种状态的标记，方便分析。
 
-![tcp_state_machine.jpg](images/tcp_state_machine.jpg)
+![tcp_state_machine.jpg](../images/tcp_state_machine.jpg)
 
 
 ### 大叔注
