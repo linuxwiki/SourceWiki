@@ -1,7 +1,6 @@
-
 世界上有三中程序员，一种是用 Vim 的，一种是用 Emacs 的，另外一种是用其它编辑器的。本文介绍 Emacs 的基本使用。
 
-# Emacs24 的安装
+# 一、Emacs24 的安装
 
     wget https://github.com/mirrors/emacs/archive/emacs-24.3.92.zip
     unzip emacs-24.3.92.zip
@@ -11,7 +10,7 @@
     make -j2
     sudo make install
 
-# 基本快捷键
+# 二、基本快捷键
 
 这里列出在没有打开任何 mode 的情况下，原生 Emacs 所支持的快捷键(快捷键映射关系: C->Ctrl, M->Alt/ESC)。
 
@@ -19,20 +18,17 @@
 `C-z` : 挂起 Emacs
 `C-x C-c`: 关闭 Emacs
 
-## 光标移动
+## 2.1 光标移动
 
 + `C-n` : 下一行
 + `C-p` : 上一行
 + `C-f` : 前进一个字符
 + `C-b` : 后退一个字符
-
 + `M-f` : 前进一个单词
 + `M-b` : 后退一个单词
-
 + `C-v` : 向下翻页
 + `M-v` : 向上翻页
 + `C-l` : 光标所在行移动到屏幕中央
-
 + `C-a` : 行首
 + `C-e` : 行尾
 + `M-a` : 句首
@@ -40,14 +36,13 @@
 + `M-<` : 文件首
 + `M->` : 文件尾
 
-## 文档编辑
+## 2.2 文档编辑
 
 + `<Backspace>` : 向前删除一个字符
 + `C-d` `<DEL>` : 向后删除一个字符，我一般用 `C-d`
 + `M-d` `M-<DEL>` : 向后删除一个单词
 + `C-k` : 删除光标到行尾，删除一行用 `C-a, C-k` (Vim 中的 dd)。
 + `M-k` : 删除光标到句尾
-
 + `C-@` : 标记(Mark set), 标记之后配合光标移动快捷键，可以选中一个区域
 + `M-w` : 复制
 + `C-w` : 剪切
@@ -75,14 +70,14 @@
 + `C-x r t string <RET>`: Replace rectangle contents with string on each line (string-rectangle).
 + `M-x string-insert-rectangle <RET> string <RET>`: Insert string on each line of the rectangle.
 
-## 搜索
+## 2.3 搜索
 
 + `C-s` : 向前搜索
 + `C-r` : 向后操作
 + `C-g` : 回到搜索开始前的位置
 + `M-%` : 询问并替换
 
-## 文件操作(缓冲区)
+## 2.4 文件操作(缓冲区)
 
 Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你可以在多个文件中来回切换。
 
@@ -94,7 +89,7 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 + `C-x b` : 切回最近的 buffer
 + `C-x k` : 关闭当前缓冲区
 
-## 窗口(WINDOWS)操作
+## 2.5 窗口(WINDOWS)操作
 
 + `C-x 1` : 只保留当前窗口
 + `C-x 2` : 水平切分
@@ -102,7 +97,7 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 + `C-x o` : 切换到另外一个窗口
 + `C-x 0` : 关闭当前窗口(并不是删除buffer)
 
-# 通用定制
+# 三、通用定制
 
 默认的 Emacs 的快捷键有些不好用，比如 `C-x C-f` 时，没有任何提示。再如窗口切换使用 `C-x o`，当 Buffer 多时，非常不方便，这一节介绍 Emacs 通用的定制(不针对某种开发/编辑环境)。
 
@@ -155,11 +150,11 @@ Emacs 的配置文件为 `~/.emacs`，如果没有就 `touch` 一个，插件位
 
 Tip: `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便。 
 
-# 高级定制
+# 四、高级定制
 
 这一节针对不同的应用，介绍一些插件。
 
-## 代码参考线: [fill-column-indicator](https://github.com/alpaker/Fill-Column-Indicator)
+## 4.1 代码参考线: [fill-column-indicator](https://github.com/alpaker/Fill-Column-Indicator)
 
     (require 'fill-column-indicator)
     (setq fci-rule-color "#333") # 参考线颜色，我的配色是暗色的, 所以 #333 看着舒服一点
@@ -168,7 +163,7 @@ Tip: `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便。
       global-fci-mode fci-mode (lambda () (fci-mode 1)))
     (global-fci-mode 1)
 
-## 代码自动补全: [auto-complete](https://github.com/auto-complete/auto-complete)
+## 4.2 代码自动补全: [auto-complete](https://github.com/auto-complete/auto-complete)
 
 对于用管IDE的朋友,我要解释一下,这里的自动补全不是类成员提示, =_=!
 
@@ -188,7 +183,7 @@ Tip: `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便。
 
 auto-complete 和 [yasnippet](https://github.com/capitaomorte/yasnippet) 是一对好基友，yasnippet 支持很多语言的语法补全，感兴趣可以尝试一下(我不太喜欢用，感觉会影响加载速度)。
 
-## 相同符号高亮: [highlight-symbol](https://github.com/nschum/highlight-symbol.el)
+## 4.3 相同符号高亮: [highlight-symbol](https://github.com/nschum/highlight-symbol.el)
 
 用这个做查找也挺不错的!
 
@@ -197,7 +192,7 @@ auto-complete 和 [yasnippet](https://github.com/capitaomorte/yasnippet) 是一�
     (global-set-key (kbd "M-n") 'highlight-symbol-next)
     (global-set-key (kbd "M-p") 'highlight-symbol-prev)
 
-## Markdown: [markdown-mode](http://jblevins.org/projects/markdown-mode/)
+## 4.4 Markdown: [markdown-mode](http://jblevins.org/projects/markdown-mode/)
 
 (autoload 'markdown-mode "~/.emacs.d/lisp/markdown-mode/markdown-mode.el"
   "Major mode for editing Markdown files" t)
@@ -208,18 +203,18 @@ auto-complete 和 [yasnippet](https://github.com/capitaomorte/yasnippet) 是一�
 (setq auto-mode-alist
       (cons '("\\.txt" . markdown-mode) auto-mode-alist))
 
-## Python: [python.el](https://github.com/fgallina/python.el)
+## 4.5 Python: [python.el](https://github.com/fgallina/python.el)
 
 推荐使用 python.el 而不是 [python-mode](https://github.com/klen/python-mode)。
 
     (require 'python)
 
-## Google Protobuf Buffer: [protobuf-mode](http://code.google.com/p/protobuf/source/browse/trunk/editors/protobuf-mode.el?r=227)
+## 4.6 Google Protobuf Buffer: [protobuf-mode](http://code.google.com/p/protobuf/source/browse/trunk/editors/protobuf-mode.el?r=227)
 
     (require 'protobuf-mode)
     (add-to-list 'auto-mode-alist '("\\.proto$" . protobuf-mode))
 
-## C++开发定制: xcscope + etags + c++-mode
+## 4.7 C++开发定制: xcscope + etags + c++-mode
 
     ;; 编译与调试
     (global-set-key [(f5)] 'compile)
@@ -317,25 +312,25 @@ etags 使用:
 
 + `F9` : 在头文件和对应源文件之间跳转: `(global-set-key [(f9)] 'ff-find-other-file)`
 
-## Emacs主题
+## 4.8 Emacs主题
 
 把 主题 放到最后，是想告诉大家，使用 Emacs(或者其它任何工具) 时，不要花时间在这些炫酷的东西上面，还是要聚焦于实用和高效。Emacs24自带了几款主题(Emacs23没有的哦)，使用 `M-x customize-theme` 回车可查看配色效果。确定喜欢的一款注意后在配置文件中添加一行代码就可以啦。
 
 我一般使用 wombat ，即 `(load-theme 'wombat)`。
 
-# 学习资源 
+# 五、学习资源 
 
-## 视频
+## 5.1 视频
 
 + [Emacs as a C/C++ Editor/IDE (Part 3): cedet mode for true intellisense](http://www.youtube.com/watch?v=Ib914gNr0ys&feature=share)
 
-## 网站(博客)
+## 5.2 网站(博客)
 
 + [GNU Emacs Manuals Online](http://www.gnu.org/software/emacs/manual/)
 + [Emacs Redux](http://emacsredux.com/)
 + [Emacs Markdown Mode](http://jblevins.org/projects/markdown-mode/)
 
-## 参考/扩展资料
+## 5.3 参考/扩展资料
 
 + [一年成为Emacs高手(像神一样使用编辑器)](https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/guide-zh.org)
 + [Emacs as a Python IDE](http://www.jesshamrick.com/2012/09/18/emacs-as-a-python-ide/)
