@@ -194,14 +194,14 @@ auto-complete 和 [yasnippet](https://github.com/capitaomorte/yasnippet) 是一�
 
 ## 4.4 Markdown: [markdown-mode](http://jblevins.org/projects/markdown-mode/)
 
-(autoload 'markdown-mode "~/.emacs.d/lisp/markdown-mode/markdown-mode.el"
-  "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-      (cons '("\\.md" . markdown-mode) auto-mode-alist))
-(setq auto-mode-alist
-      (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
-(setq auto-mode-alist
-      (cons '("\\.txt" . markdown-mode) auto-mode-alist))
+    (autoload 'markdown-mode "~/.emacs.d/lisp/markdown-mode/markdown-mode.el"
+      "Major mode for editing Markdown files" t)
+    (setq auto-mode-alist
+          (cons '("\\.md" . markdown-mode) auto-mode-alist))
+    (setq auto-mode-alist
+          (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+    (setq auto-mode-alist
+          (cons '("\\.txt" . markdown-mode) auto-mode-alist))
 
 ## 4.5 Python: [python.el](https://github.com/fgallina/python.el)
 
