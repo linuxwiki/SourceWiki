@@ -2,9 +2,9 @@
 
 ## pssh
 
-psshÊÇÒ»¸öpython±àĞ´¿ÉÒÔÔÚ¶àÌ¨·şÎñÆ÷ÉÏÖ´ĞĞÃüÁîµÄ¹¤¾ß£¬Í¬Ê±Ö§³Ö¿½±´ÎÄ¼ş£¬ÊÇÍ¬Àà¹¤¾ßÖĞºÜ³öÉ«µÄ£¬ÀàËÆpdsh ¡£Îª·½±ã²Ù×÷£¬Ê¹ÓÃÇ°ÇëÔÚ¸÷¸ö·şÎñÆ÷ÉÏÅäÖÃºÃÃÜÔ¿ÈÏÖ¤·ÃÎÊ¡£ÏîÄ¿µØÖ·: [parallel-ssh](https://code.google.com/p/parallel-ssh/)
+psshæ˜¯ä¸€ä¸ªpythonç¼–å†™å¯ä»¥åœ¨å¤šå°æœåŠ¡å™¨ä¸Šæ‰§è¡Œå‘½ä»¤çš„å·¥å…·ï¼ŒåŒæ—¶æ”¯æŒæ‹·è´æ–‡ä»¶ï¼Œæ˜¯åŒç±»å·¥å…·ä¸­å¾ˆå‡ºè‰²çš„ï¼Œç±»ä¼¼pdsh ã€‚ä¸ºæ–¹ä¾¿æ“ä½œï¼Œä½¿ç”¨å‰è¯·åœ¨å„ä¸ªæœåŠ¡å™¨ä¸Šé…ç½®å¥½å¯†é’¥è®¤è¯è®¿é—®ã€‚é¡¹ç›®åœ°å€: [parallel-ssh](https://code.google.com/p/parallel-ssh/)
 
-### °²×°
+### å®‰è£…
 
 ``` bash
 wget http://parallel-ssh.googlecode.com/files/pssh-2.3.1.tar.gz
@@ -13,37 +13,37 @@ cd pssh-2.3.1/
 python setup.py install
 ```
 
-### psshÏà¹Ø²ÎÊı
+### psshç›¸å…³å‚æ•°
 
-* psshÔÚ¶à¸öÖ÷»úÉÏ²¢ĞĞµØÔËĞĞÃüÁî
-   * -h Ö´ĞĞÃüÁîµÄÔ¶³ÌÖ÷»úÁĞ±í,ÎÄ¼şÄÚÈİ¸ñÊ½[user@]host[:port]
-   		* Èç test@172.16.10.10:229
-   * -H Ö´ĞĞÃüÁîÖ÷»ú£¬Ö÷»ú¸ñÊ½ user@ip:port 
-   * -l Ô¶³Ì»úÆ÷µÄÓÃ»§Ãû
-   * -p Ò»´Î×î´óÔÊĞí¶àÉÙÁ¬½Ó
-   * -P Ö´ĞĞÊ±Êä³öÖ´ĞĞĞÅÏ¢
-   * -o Êä³öÄÚÈİÖØ¶¨Ïòµ½Ò»¸öÎÄ¼ş
-   * -e Ö´ĞĞ´íÎóÖØ¶¨Ïòµ½Ò»¸öÎÄ¼ş
-   * -t ÉèÖÃÃüÁîÖ´ĞĞ³¬Ê±Ê±¼ä
-   * -A ÌáÊ¾ÊäÈëÃÜÂë²¢ÇÒ°ÑÃÜÂë´«µİ¸øssh(Èç¹ûË½Ô¿Ò²ÓĞÃÜÂëÒ²ÓÃÕâ¸ö²ÎÊı)
-   * -O ÉèÖÃsshÒ»Ğ©Ñ¡Ïî
-   * -x ÉèÖÃssh¶îÍâµÄÒ»Ğ©²ÎÊı£¬¿ÉÒÔ¶à¸ö£¬²»Í¬²ÎÊı¼ä¿Õ¸ñ·Ö¿ª
-   * -X Í¬-x,µ«ÊÇÖ»ÄÜÉèÖÃÒ»¸ö²ÎÊı
-   * -i ÏÔÊ¾±ê×¼Êä³öºÍ±ê×¼´íÎóÔÚÃ¿Ì¨hostÖ´ĞĞÍê±Ïºó
+* psshåœ¨å¤šä¸ªä¸»æœºä¸Šå¹¶è¡Œåœ°è¿è¡Œå‘½ä»¤
+   * -h æ‰§è¡Œå‘½ä»¤çš„è¿œç¨‹ä¸»æœºåˆ—è¡¨,æ–‡ä»¶å†…å®¹æ ¼å¼[user@]host[:port]
+   		* å¦‚ test@172.16.10.10:229
+   * -H æ‰§è¡Œå‘½ä»¤ä¸»æœºï¼Œä¸»æœºæ ¼å¼ user@ip:port 
+   * -l è¿œç¨‹æœºå™¨çš„ç”¨æˆ·å
+   * -p ä¸€æ¬¡æœ€å¤§å…è®¸å¤šå°‘è¿æ¥
+   * -P æ‰§è¡Œæ—¶è¾“å‡ºæ‰§è¡Œä¿¡æ¯
+   * -o è¾“å‡ºå†…å®¹é‡å®šå‘åˆ°ä¸€ä¸ªæ–‡ä»¶
+   * -e æ‰§è¡Œé”™è¯¯é‡å®šå‘åˆ°ä¸€ä¸ªæ–‡ä»¶
+   * -t è®¾ç½®å‘½ä»¤æ‰§è¡Œè¶…æ—¶æ—¶é—´
+   * -A æç¤ºè¾“å…¥å¯†ç å¹¶ä¸”æŠŠå¯†ç ä¼ é€’ç»™ssh(å¦‚æœç§é’¥ä¹Ÿæœ‰å¯†ç ä¹Ÿç”¨è¿™ä¸ªå‚æ•°)
+   * -O è®¾ç½®sshä¸€äº›é€‰é¡¹
+   * -x è®¾ç½®sshé¢å¤–çš„ä¸€äº›å‚æ•°ï¼Œå¯ä»¥å¤šä¸ªï¼Œä¸åŒå‚æ•°é—´ç©ºæ ¼åˆ†å¼€
+   * -X åŒ-x,ä½†æ˜¯åªèƒ½è®¾ç½®ä¸€ä¸ªå‚æ•°
+   * -i æ˜¾ç¤ºæ ‡å‡†è¾“å‡ºå’Œæ ‡å‡†é”™è¯¯åœ¨æ¯å°hostæ‰§è¡Œå®Œæ¯•å
 
-### ¸½¼Ó¹¤¾ß
+### é™„åŠ å·¥å…·
 
-*	pscp ´«ÊäÎÄ¼şµ½¶à¸öhosts£¬ÀàËÆscp
+*	pscp ä¼ è¾“æ–‡ä»¶åˆ°å¤šä¸ªhostsï¼Œç±»ä¼¼scp
 	* pscp -h hosts.txt -l irb2 foo.txt /home/irb2/foo.txt
-*	pslurp ´Ó¶àÌ¨Ô¶³Ì»úÆ÷¿½±´ÎÄ¼şµ½±¾µØ
-*	pnuke ²¢ĞĞÔÚÔ¶³ÌÖ÷»úÉ±½ø³Ì
+*	pslurp ä»å¤šå°è¿œç¨‹æœºå™¨æ‹·è´æ–‡ä»¶åˆ°æœ¬åœ°
+*	pnuke å¹¶è¡Œåœ¨è¿œç¨‹ä¸»æœºæ€è¿›ç¨‹
 	* pnuke -h hosts.txt -l irb2 java
-*	prsync Ê¹ÓÃrsyncĞ­Òé´Ó±¾µØ¼ÆËã»úÍ¬²½µ½Ô¶³ÌÖ÷»ú
+*	prsync ä½¿ç”¨rsyncåè®®ä»æœ¬åœ°è®¡ç®—æœºåŒæ­¥åˆ°è¿œç¨‹ä¸»æœº
 	* prsync -r -h hosts.txt -l irb2 foo /home/irb2/foo
 
-### Ê¹ÓÃÊµÀı
+### ä½¿ç”¨å®ä¾‹
 
-Ğ´ÈëÖ÷»úµ½ÎÄ¼şÖĞ£¬Óï·¨Îª`ÓÃ»§Ãû@Ö÷»úip`
+å†™å…¥ä¸»æœºåˆ°æ–‡ä»¶ä¸­ï¼Œè¯­æ³•ä¸º`ç”¨æˆ·å@ä¸»æœºip`
 
 ``` bash
 $ cat host.txt 
@@ -51,7 +51,7 @@ root@192.168.230.128
 wul@10.0.0.8
 ```
 
-ÍÆ¼öÊ¹ÓÃ`-i`Ñ¡ÏîÊä³öĞÅÏ¢¶ø²»ÊÇ`-P`Ñ¡Ïî£¬`-h`Ö¸¶¨¶¨ÒåÖ÷»ú×é
+æ¨èä½¿ç”¨`-i`é€‰é¡¹è¾“å‡ºä¿¡æ¯è€Œä¸æ˜¯`-P`é€‰é¡¹ï¼Œ`-h`æŒ‡å®šå®šä¹‰ä¸»æœºç»„
 
 ``` bash
 $ pssh -i -h host.txt 'date'
@@ -61,7 +61,7 @@ Mon Aug 12 16:32:38 CST 2013
 Mon Aug 12 16:32:38 CST 2013
 ```
 
-`-x`Ñ¡Ïî£ºÖ¸¶¨sshµÄÒ»Ğ©¶îÍâÑ¡Ïî
+`-x`é€‰é¡¹ï¼šæŒ‡å®šsshçš„ä¸€äº›é¢å¤–é€‰é¡¹
 
 ``` bash
 $ pssh -x '-t -t -o StrictHostKeyChecking=no' -i -h host.txt date
@@ -73,7 +73,7 @@ Mon Aug 12 17:20:01 CST 2013
 Stderr: Connection to 10.0.0.8 closed.
 ```
 
-`-H`Ñ¡Ïî£ºÖ¸¶¨µ¥¸öÖ÷»ú
+`-H`é€‰é¡¹ï¼šæŒ‡å®šå•ä¸ªä¸»æœº
 
 ``` bash
 $ pssh -x '-t -t -o StrictHostKeyChecking=no' -i -H 192.168.230.128 -H wul@10.0.0.8 date
@@ -85,52 +85,52 @@ Mon Aug 12 17:22:58 CST 2013
 Stderr: Connection to 10.0.0.8 closed.
 ```
 
-### ²Î¿¼ÎÄµµ
+### å‚è€ƒæ–‡æ¡£
 
 * [pssh](http://linux.die.net/man/1/pssh) 
 * [pssh-howto](http://www.theether.org/pssh/docs/0.2.3/pssh-HOWTO.html)
 
 ## pdsh 
 
-pdsh(Parallel Distributed SHell)¿É²¢ĞĞµÄÖ´ĞĞ¶ÔÄ¿±êÖ÷»úµÄ²Ù×÷£¬¶ÔÓÚÅúÁ¿Ö´ĞĞÃüÁîºÍ·Ö·¢ÈÎÎñÓĞºÜ´óµÄ°ïÖú£¬ÔÚÊ¹ÓÃÇ°ĞèÒªÅäÖÃsshÎŞÃÜÂëµÇÂ¼£¬[µã»÷ÏÂÔØ](http://sourceforge.net/projects/pdsh/)
+pdsh(Parallel Distributed SHell)å¯å¹¶è¡Œçš„æ‰§è¡Œå¯¹ç›®æ ‡ä¸»æœºçš„æ“ä½œï¼Œå¯¹äºæ‰¹é‡æ‰§è¡Œå‘½ä»¤å’Œåˆ†å‘ä»»åŠ¡æœ‰å¾ˆå¤§çš„å¸®åŠ©ï¼Œåœ¨ä½¿ç”¨å‰éœ€è¦é…ç½®sshæ— å¯†ç ç™»å½•ï¼Œ[ç‚¹å‡»ä¸‹è½½](http://sourceforge.net/projects/pdsh/)
 
 
-### pdsh»ù±¾ÓÃ·¨
+### pdshåŸºæœ¬ç”¨æ³•
 
 ``` bash
  pdsh -h
 Usage: pdsh [-options] command ...
 -S                return largest of remote command return values
--h                output usage menu and quit                »ñÈ¡°ïÖú
--V                output version information and quit       ²é¿´°æ±¾
--q                list the option settings and quit         ÁĞ³öpdshÖ´ĞĞµÄÒ»Ğ©ĞÅÏ¢
+-h                output usage menu and quit                è·å–å¸®åŠ©
+-V                output version information and quit       æŸ¥çœ‹ç‰ˆæœ¬
+-q                list the option settings and quit         åˆ—å‡ºpdshæ‰§è¡Œçš„ä¸€äº›ä¿¡æ¯
 -b                disable ^C status feature (batch mode)
 -d                enable extra debug information from ^C status
--l user           execute remote commands as user           Ö¸¶¨Ô¶³ÌÊ¹ÓÃµÄÓÃ»§
--t seconds        set connect timeout (default is 10 sec)   Ö¸¶¨³¬Ê±Ê±¼ä
--u seconds        set command timeout (no default)          ÀàËÆ-t
--f n              use fanout of n nodes                     ÉèÖÃÍ¬Ê±Á¬½ÓµÄÄ¿±êÖ÷»úµÄ¸öÊı
--w host,host,...  set target node list on command line      Ö¸¶¨Ö÷»ú£¬host¿ÉÒÔÊÇÖ÷»úÃûÒ²¿ÉÒÔÊÇip
--x host,host,...  set node exclusion list on command line   ÅÅ³ıÄ³Ğ©»òÕßÄ³¸öÖ÷»ú
--R name           set rcmd module to name                   Ö¸¶¨rcmdµÄÄ£¿éÃû£¬Ä¬ÈÏÊ¹ÓÃssh
--N                disable hostname: labels on output lines  Êä³ö²»ÏÔÊ¾Ö÷»úÃû»òÕßip
--L                list info on all loaded modules and exit  ÁĞ³öpdsh¼ÓÔØµÄÄ£¿éĞÅÏ¢
--a                target all nodes                          Ö¸¶¨ËùÓĞµÄ½Úµã
--g groupname      target hosts in dsh group "groupname"     Ö¸¶¨dsh×éÃû
--X groupname      exclude hosts in dsh group "groupname"    ÅÅ³ı×é£¬Ò»°ãºÍ-aÁ¬ÓÃ
-available rcmd modules: exec,xcpu,ssh (default: ssh)        ¿ÉÓÃµÄÖ´ĞĞÃüÁîÄ£¿é£¬Ä¬ÈÏÎªssh
+-l user           execute remote commands as user           æŒ‡å®šè¿œç¨‹ä½¿ç”¨çš„ç”¨æˆ·
+-t seconds        set connect timeout (default is 10 sec)   æŒ‡å®šè¶…æ—¶æ—¶é—´
+-u seconds        set command timeout (no default)          ç±»ä¼¼-t
+-f n              use fanout of n nodes                     è®¾ç½®åŒæ—¶è¿æ¥çš„ç›®æ ‡ä¸»æœºçš„ä¸ªæ•°
+-w host,host,...  set target node list on command line      æŒ‡å®šä¸»æœºï¼Œhostå¯ä»¥æ˜¯ä¸»æœºåä¹Ÿå¯ä»¥æ˜¯ip
+-x host,host,...  set node exclusion list on command line   æ’é™¤æŸäº›æˆ–è€…æŸä¸ªä¸»æœº
+-R name           set rcmd module to name                   æŒ‡å®šrcmdçš„æ¨¡å—åï¼Œé»˜è®¤ä½¿ç”¨ssh
+-N                disable hostname: labels on output lines  è¾“å‡ºä¸æ˜¾ç¤ºä¸»æœºåæˆ–è€…ip
+-L                list info on all loaded modules and exit  åˆ—å‡ºpdshåŠ è½½çš„æ¨¡å—ä¿¡æ¯
+-a                target all nodes                          æŒ‡å®šæ‰€æœ‰çš„èŠ‚ç‚¹
+-g groupname      target hosts in dsh group "groupname"     æŒ‡å®šdshç»„å
+-X groupname      exclude hosts in dsh group "groupname"    æ’é™¤ç»„ï¼Œä¸€èˆ¬å’Œ-aè¿ç”¨
+available rcmd modules: exec,xcpu,ssh (default: ssh)        å¯ç”¨çš„æ‰§è¡Œå‘½ä»¤æ¨¡å—ï¼Œé»˜è®¤ä¸ºssh
 ```
 
-### Ê¹ÓÃÊµÀı
+### ä½¿ç”¨å®ä¾‹
 
-#### µ¥¸öÖ÷»ú²âÊÔ
+#### å•ä¸ªä¸»æœºæµ‹è¯•
 
 ``` bash
 $ pdsh -w 192.168.0.231 -l root uptime
 192.168.0.231:  16:16:11 up 32 days, 22:14, ? users,  load average: 0.10, 0.14, 0.16
 ```
 
-#### ¶à¸öÖ÷»ú²âÊÔ
+#### å¤šä¸ªä¸»æœºæµ‹è¯•
 
 ``` bash
 $ pdsh -w 192.168.0.[231-233] -l root uptime
@@ -139,7 +139,7 @@ $ pdsh -w 192.168.0.[231-233] -l root uptime
 192.168.0.231:  16:17:06 up 32 days, 22:15, ? users,  load average: 0.09, 0.13, 0.15
 ```
 
-#### ¶ººÅ·Ö¸ôÖ÷»ú
+#### é€—å·åˆ†éš”ä¸»æœº
 
 ``` bash
 $ pdsh -w 192.168.0.231,192.168.0.234 -l root uptime
@@ -147,7 +147,7 @@ $ pdsh -w 192.168.0.231,192.168.0.234 -l root uptime
 192.168.0.231:  16:19:44 up 32 days, 22:17, ? users,  load average: 0.29, 0.18, 0.16
 ```
 
-#### `-x`ÅÅ³ıÄ³¸öÖ÷»ú
+#### `-x`æ’é™¤æŸä¸ªä¸»æœº
 
 ``` bash
 $ pdsh -w 192.168.0.[231-233] -x 192.168.0.232 -l root uptime
@@ -155,9 +155,9 @@ $ pdsh -w 192.168.0.[231-233] -x 192.168.0.232 -l root uptime
 192.168.0.231:  16:18:25 up 32 days, 22:16, ? users,  load average: 0.11, 0.13, 0.15
 ```
 
-#### Ö÷»ú×é
+#### ä¸»æœºç»„
   
-¶ÔÓÚ-g×é£¬°Ñ¶ÔÓ¦µÄÖ÷»úĞ´Èëµ½`/etc/dsh/group/`»ò`~/.dsh/group/`Ä¿Â¼ÏÂµÄÎÄ¼şÖĞ¼´¿É£¬ÎÄ¼şÃû¾ÍÊÇ¶ÔÓ¦×éÃû
+å¯¹äº-gç»„ï¼ŒæŠŠå¯¹åº”çš„ä¸»æœºå†™å…¥åˆ°`/etc/dsh/group/`æˆ–`~/.dsh/group/`ç›®å½•ä¸‹çš„æ–‡ä»¶ä¸­å³å¯ï¼Œæ–‡ä»¶åå°±æ˜¯å¯¹åº”ç»„å
 
 ``` bash
 $ cat ~/.dsh/group/dsh-test 
@@ -175,19 +175,19 @@ $ pdsh -g dsh-test -l root uptime
 192.168.0.233:  16:21:40 up 32 days, 22:22, ? users,  load average: 0.15, 0.15, 0.10
 ```
 
-#### `dshbak`¸ñÊ½»¯Êä³ö
+#### `dshbak`æ ¼å¼åŒ–è¾“å‡º
 
-pdshµÄÈ±Ê¡Êä³ö¸ñÊ½ÎªÖ÷»úÃû¼Ó¸ÃÖ÷»úµÄÊä³ö£¬ÔÚÖ÷»ú»òÊä³ö¶àÊ±»á±È½Ï»ìÂÒ£¬¿ÉÒÔ²ÉÓÃ`dshbak`×öÒ»Ğ©¸ñÊ½»¯£¬ÈÃÊä³ö¸üÇåÎú¡£
+pdshçš„ç¼ºçœè¾“å‡ºæ ¼å¼ä¸ºä¸»æœºååŠ è¯¥ä¸»æœºçš„è¾“å‡ºï¼Œåœ¨ä¸»æœºæˆ–è¾“å‡ºå¤šæ—¶ä¼šæ¯”è¾ƒæ··ä¹±ï¼Œå¯ä»¥é‡‡ç”¨`dshbak`åšä¸€äº›æ ¼å¼åŒ–ï¼Œè®©è¾“å‡ºæ›´æ¸…æ™°ã€‚
 
 ``` bash
-$ pdsh -g dsh-test -l root 'date'       #²é¿´ÄÄĞ©Ö÷»úÊ±¼ä²»Ò»Ñù£¬Ö÷»úÒ»¶à£¬¿É¶ÁĞÔ²»Ç¿
+$ pdsh -g dsh-test -l root 'date'       #æŸ¥çœ‹å“ªäº›ä¸»æœºæ—¶é—´ä¸ä¸€æ ·ï¼Œä¸»æœºä¸€å¤šï¼Œå¯è¯»æ€§ä¸å¼º
 192.168.0.232: Wed Jun 19 16:24:40 CST 2013
 192.168.0.231: Wed Jun 19 16:24:40 CST 2013
 192.168.0.234: Wed Jun 19 16:24:40 CST 2013
 192.168.0.233: Wed Jun 19 16:24:40 CST 2013
 ```
 
-Ê¹ÓÃdshbakÖ®ºó¿É¶ÁĞÔ±äµÃºÃÁËºÜ¶à
+ä½¿ç”¨dshbakä¹‹åå¯è¯»æ€§å˜å¾—å¥½äº†å¾ˆå¤š
 
 ``` bash
 $ pdsh -g dsh-test -l root 'date' | dshbak -c  
@@ -201,6 +201,6 @@ Wed Jun 19 16:24:18 CST 2013
 Wed Jun 19 16:24:19 CST 2013
 ```
 
-### ²Î¿¼ÎÄµµ
+### å‚è€ƒæ–‡æ¡£
 
 * [Using PDSH](https://code.google.com/p/pdsh/wiki/UsingPDSH)
