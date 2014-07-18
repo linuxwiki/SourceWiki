@@ -108,7 +108,7 @@ $ sudo docker run -i -t ubuntu:14.04 /bin/bash
 - /bin/bash - 运行bash shell
 
  
-- ubuntu会有多个版本，通过指定tag来启动特定的版本[image]:[tag]
+__注:__ ubuntu会有多个版本，通过指定tag来启动特定的版本[image]:[tag]
  
 ``` bash
 $ sudo docker ps # 查看当前运行的容器, ps -a列出当前系统所有的容器
