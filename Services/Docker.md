@@ -6,10 +6,10 @@ Docker发端于一个名为dotcloud的开源项目；随着编写者不断挖掘
  
 一台VE就像是轻量级的VM，它在已有的内核关于底层硬件的镜像上建立一个可以用来运行应用的‘容器’。它也可以用来创建操作系统，因为所谓的操作系统也不过是一个跑在内核上的应用而已。可以把Docker想象成LxC的一个强化版，只是具有以下LxC所不具有的特性：
  
-* **强大的可移植性**：你可以使用Docker创造一个绑定了你所有你所需要的应用的对象。这个对象可以被转移并被安装在任何一个安装了 Docker 的 Linux 主机上。
-* **版本控制**： Docker自带git功能，能够跟踪一个容器的成功版本并记录下来，并且可以对不同的版本进行检测，提交新版本，回滚到任意的一个版本等功能等等。
-* **组件的可重用性**： Docker 允许创建或是套用一个已经存在的包。举个例子，如果你有许多台机器都需要安装 Apache 和 MySQL 数据库，你可以创建一个包含了这两个组件的‘基础镜像’。然后在创建新机器的时候使用这个镜像进行安装就行了。
-* **可分享的类库**：已经有上千个可用的容器被上传并被分享到一个共有仓库中[http://index.docker.io/](http://index.docker.io/)。考虑到AWS对于不同环境下的调试和发布，这一做法是十分聪明的。
+- **强大的可移植性**：你可以使用Docker创造一个绑定了你所有你所需要的应用的对象。这个对象可以被转移并被安装在任何一个安装了 Docker 的 Linux 主机上。
+- **版本控制**： Docker自带git功能，能够跟踪一个容器的成功版本并记录下来，并且可以对不同的版本进行检测，提交新版本，回滚到任意的一个版本等功能等等。
+- **组件的可重用性**： Docker 允许创建或是套用一个已经存在的包。举个例子，如果你有许多台机器都需要安装 Apache 和 MySQL 数据库，你可以创建一个包含了这两个组件的‘基础镜像’。然后在创建新机器的时候使用这个镜像进行安装就行了。
+- **可分享的类库**：已经有上千个可用的容器被上传并被分享到一个共有仓库中[http://index.docker.io/](http://index.docker.io/)。考虑到AWS对于不同环境下的调试和发布，这一做法是十分聪明的。
  
 > LxC是一个Linux提供的收容功能接口，通过LxC提供的API和简单的工具，使得Linux用户可以简单的创建和管理系统或者应用的空间。[LXC容器](http://www.ibm.com/developerworks/cn/linux/l-lxc-containers/)
  
@@ -22,29 +22,29 @@ Docker通常用于如下场景：
  
 Docker并不是全能的，设计之初也不是KVM之类虚拟化手段的替代品：
  
-* Docker是基于Linux 64bit的，无法在windows/unix或32bit的linux环境下使用
-* LXC是基于cgroup等linux kernel功能的，因此container的guest系统只能是linux base的
-* 隔离性相比KVM之类的虚拟化方案还是有些欠缺，所有container公用一部分的运行库
-* 网络管理相对简单，主要是基于namespace隔离
-* cgroup的cpu和cpuset提供的cpu功能相比KVM的等虚拟化方案相比难以度量
-* docker对disk的管理比较有限
-* container随着用户进程的停止而销毁，container中的log等用户数据不便收集
+- Docker是基于Linux 64bit的，无法在windows/unix或32bit的linux环境下使用
+- LXC是基于cgroup等linux kernel功能的，因此container的guest系统只能是linux base的
+- 隔离性相比KVM之类的虚拟化方案还是有些欠缺，所有container公用一部分的运行库
+- 网络管理相对简单，主要是基于namespace隔离
+- cgroup的cpu和cpuset提供的cpu功能相比KVM的等虚拟化方案相比难以度量
+- docker对disk的管理比较有限
+- container随着用户进程的停止而销毁，container中的log等用户数据不便收集
  
 Docker实践解决方案：
  
-* 隔离性：Docker在文件系统和网络级别隔离了应用。从这个意义上来讲很像在运行”真正的“虚拟机。
-* 重复性：用你喜欢的方式准备系统（登录并在所有软件里执行apt-get命令，或者使用Dockerfile），然后把修改提交到镜像中。你可以随意实例化若干个实例，或者把镜像传输到另一台机器，完全重现同样的设置。
-* 安全性：Docker容器比普通的进程隔离更为安全。Docker团队已经确定了一些安全问题，正在着手解决。
-* 资源约束：Docker现在能限制CPU的使用率和内存用量。目前还不能直接限制磁盘的使用情况。
-* 易于安装：Docker有一个Docker Index，这个仓库存储了现成的Docker镜像，你用一条命令就可以完成实例化。比如说，要使用Clojure REPL镜像，只要运行docker run -t -i zefhemel/clojure-repl命令就能自动获取并运行该镜像。
-* 易于移除：不需要应用了？销毁容器就行。
-* 升级、降级：和EC2VM一样：先启动应用的新版本，然后把负载均衡器切换到新的端口。
-* 快照、备份：Docker能提交镜像并给镜像打标签，和EC2上的快照不同，Docker是立即处理的。
+- 隔离性：Docker在文件系统和网络级别隔离了应用。从这个意义上来讲很像在运行”真正的“虚拟机。
+- 重复性：用你喜欢的方式准备系统（登录并在所有软件里执行apt-get命令，或者使用Dockerfile），然后把修改提交到镜像中。你可以随意实例化若干个实例，或者把镜像传输到另一台机器，完全重现同样的设置。
+- 安全性：Docker容器比普通的进程隔离更为安全。Docker团队已经确定了一些安全问题，正在着手解决。
+- 资源约束：Docker现在能限制CPU的使用率和内存用量。目前还不能直接限制磁盘的使用情况。
+- 易于安装：Docker有一个Docker Index，这个仓库存储了现成的Docker镜像，你用一条命令就可以完成实例化。比如说，要使用Clojure REPL镜像，只要运行docker run -t -i zefhemel/clojure-repl命令就能自动获取并运行该镜像。
+- 易于移除：不需要应用了？销毁容器就行。
+- 升级、降级：和EC2VM一样：先启动应用的新版本，然后把负载均衡器切换到新的端口。
+- 快照、备份：Docker能提交镜像并给镜像打标签，和EC2上的快照不同，Docker是立即处理的。
  
  
-* [Docker Getting Start: Related Knowledge ](http://tiewei.github.io/cloud/Docker-Getting-Start/)
-* [谁是容器中的“战斗机”？Docker与Chef、LXC等容器对比](http://code.csdn.net/news/2819773)
-* [Docker：利用Linux容器实现可移植的应用部署](http://www.infoq.com/cn/articles/docker-containers)
+- [Docker Getting Start: Related Knowledge ](http://tiewei.github.io/cloud/Docker-Getting-Start/)
+- [谁是容器中的“战斗机”？Docker与Chef、LXC等容器对比](http://code.csdn.net/news/2819773)
+- [Docker：利用Linux容器实现可移植的应用部署](http://www.infoq.com/cn/articles/docker-containers)
 
 ## docker 安装配置
 
@@ -71,11 +71,11 @@ Go version (server): go1.2.1
 Last stable version: 0.11.1, please update docker
 ```
  
-* [Docker install on ubuntu](http://docs.docker.io/installation/ubuntulinux/)
+- [Docker install on ubuntu](http://docs.docker.io/installation/ubuntulinux/)
  
 ## Docker images
  
-* [Docker index](https://index.docker.io/) Docker镜像首页，包括官方镜像和其它公开镜像
+- [Docker index](https://index.docker.io/) Docker镜像首页，包括官方镜像和其它公开镜像
  
 ### Search index images
  
@@ -101,14 +101,14 @@ ubuntu              12.04               74fe38d11401        3 weeks ago         
 $ sudo docker run -i -t ubuntu:14.04 /bin/bash
 ```
 
-* docker run - 运行一个容器
-* -t - 分配一个（伪） tty (link is external)
-* -i - 开发输入(so we can interact with it)
-* ubuntu - 使用ubuntu基础镜像
-* /bin/bash - 运行bash shell
+- docker run - 运行一个容器
+- -t - 分配一个（伪） tty (link is external)
+- -i - 开发输入(so we can interact with it)
+- ubuntu - 使用ubuntu基础镜像
+- /bin/bash - 运行bash shell
 
  
-* ubuntu会有多个版本，通过指定tag来启动特定的版本[image]:[tag]
+- ubuntu会有多个版本，通过指定tag来启动特定的版本[image]:[tag]
  
 ``` bash
 $ sudo docker ps # 查看当前运行的容器, ps -a列出当前系统所有的容器
@@ -118,9 +118,9 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 ### 相关快捷键
 
-* 退出：`Ctrl-D` or `exit`
-* detach：`Ctrl-p + Ctrl-q`
-* attach: `docker attach CONTAINER ID`
+- 退出：`Ctrl-D` or `exit`
+- detach：`Ctrl-p + Ctrl-q`
+- attach: `docker attach CONTAINER ID`
 
 
 ## 配置网络
@@ -129,10 +129,10 @@ Docker uses Linux bridge capabilities to provide network connectivity to contain
  
 Dokcer通过使用Linux桥接提供容器之间的通信，docker0桥接接口的目的就是方便Docker管理。当Docker daemon启动时需要做以下操作：
  
-* creates the docker0 bridge if not present 如果docker0不存在则创建
-* searches for an IP address range which doesn’t overlap with an existing route 搜索一个与当前路由不冲突的ip段
-* picks an IP in the selected range 在确定的范围中选择ip
-* assigns this IP to the docker0 bridge 绑定ip到docker0
+- creates the docker0 bridge if not present 如果docker0不存在则创建
+- searches for an IP address range which doesn’t overlap with an existing route 搜索一个与当前路由不冲突的ip段
+- picks an IP in the selected range 在确定的范围中选择ip
+- assigns this IP to the docker0 bridge 绑定ip到docker0
  
 ### 列出当前主机网桥
  
@@ -170,10 +170,10 @@ Docker会尝试寻找没有被主机使用的ip段，尽管它适用于大多数
  
 基本步骤如下：
  
-* ensure Docker is stopped  确保docker的进程是停止的
-* create your own bridge (bridge0 for example) 创建自定义网桥
-* assign a specific IP to this bridge   给网桥分配特定的ip
-* start Docker with the -b=bridge0 parameter    以-b的方式指定网桥
+- ensure Docker is stopped  确保docker的进程是停止的
+- create your own bridge (bridge0 for example) 创建自定义网桥
+- assign a specific IP to this bridge   给网桥分配特定的ip
+- start Docker with the -b=bridge0 parameter    以-b的方式指定网桥
  
 ``` bash
 # Stop Docker
@@ -255,8 +255,8 @@ dns-search intranet.123u.com
 
 ### 参考文档
 
-* [pipework readme](https://github.com/jpetazzo/pipework/blob/master/README.md)
-* [pipework-docker网络增强工具](http://peerxu.github.io/blog/2014/04/07/docker-with-openvswitch.html)
+- [pipework readme](https://github.com/jpetazzo/pipework/blob/master/README.md)
+- [pipework-docker网络增强工具](http://peerxu.github.io/blog/2014/04/07/docker-with-openvswitch.html)
 
 ## 构建docker私有库
 
@@ -266,8 +266,8 @@ dns-search intranet.123u.com
  
 The fastest way to get running:
  
-* install docker：`apt-get install docker.io`
-* run the registry: `docker run -p 5000:5000 registry`
+- install docker：`apt-get install docker.io`
+- run the registry: `docker run -p 5000:5000 registry`
  
 That will use the official image from the Docker index.[因为国内被墙的原因，速度比较慢，推荐第二种方式]
  
@@ -305,5 +305,5 @@ $ docker push 192.168.0.219:5000/ubuntu
 
 ### 参考
 
-* [docker-registry readme](https://github.com/dotcloud/docker-registry)
-* [How to use your own Registry](http://blog.docker.io/2013/07/how-to-use-your-own-registry/)
+- [docker-registry readme](https://github.com/dotcloud/docker-registry)
+- [How to use your own Registry](http://blog.docker.io/2013/07/how-to-use-your-own-registry/)
