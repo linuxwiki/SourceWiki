@@ -22,24 +22,24 @@ Docker通常用于如下场景：
  
 Docker并不是全能的，设计之初也不是KVM之类虚拟化手段的替代品：
  
-    Docker是基于Linux 64bit的，无法在windows/unix或32bit的linux环境下使用
-    LXC是基于cgroup等linux kernel功能的，因此container的guest系统只能是linux base的
-    隔离性相比KVM之类的虚拟化方案还是有些欠缺，所有container公用一部分的运行库
-    网络管理相对简单，主要是基于namespace隔离
-    cgroup的cpu和cpuset提供的cpu功能相比KVM的等虚拟化方案相比难以度量
-    docker对disk的管理比较有限
-    container随着用户进程的停止而销毁，container中的log等用户数据不便收集
+* Docker是基于Linux 64bit的，无法在windows/unix或32bit的linux环境下使用
+* LXC是基于cgroup等linux kernel功能的，因此container的guest系统只能是linux base的
+* 隔离性相比KVM之类的虚拟化方案还是有些欠缺，所有container公用一部分的运行库
+* 网络管理相对简单，主要是基于namespace隔离
+* cgroup的cpu和cpuset提供的cpu功能相比KVM的等虚拟化方案相比难以度量
+* docker对disk的管理比较有限
+* container随着用户进程的停止而销毁，container中的log等用户数据不便收集
  
 Docker实践解决方案：
  
-    隔离性：Docker在文件系统和网络级别隔离了应用。从这个意义上来讲很像在运行”真正的“虚拟机。
-    重复性：用你喜欢的方式准备系统（登录并在所有软件里执行apt-get命令，或者使用Dockerfile），然后把修改提交到镜像中。你可以随意实例化若干个实例，或者把镜像传输到另一台机器，完全重现同样的设置。
-    安全性：Docker容器比普通的进程隔离更为安全。Docker团队已经确定了一些安全问题，正在着手解决。
-    资源约束：Docker现在能限制CPU的使用率和内存用量。目前还不能直接限制磁盘的使用情况。
-    易于安装：Docker有一个Docker Index，这个仓库存储了现成的Docker镜像，你用一条命令就可以完成实例化。比如说，要使用Clojure REPL镜像，只要运行docker run -t -i zefhemel/clojure-repl命令就能自动获取并运行该镜像。
-    易于移除：不需要应用了？销毁容器就行。
-    升级、降级：和EC2VM一样：先启动应用的新版本，然后把负载均衡器切换到新的端口。
-    快照、备份：Docker能提交镜像并给镜像打标签，和EC2上的快照不同，Docker是立即处理的。
+* 隔离性：Docker在文件系统和网络级别隔离了应用。从这个意义上来讲很像在运行”真正的“虚拟机。
+* 重复性：用你喜欢的方式准备系统（登录并在所有软件里执行apt-get命令，或者使用Dockerfile），然后把修改提交到镜像中。你可以随意实例化若干个实例，或者把镜像传输到另一台机器，完全重现同样的设置。
+* 安全性：Docker容器比普通的进程隔离更为安全。Docker团队已经确定了一些安全问题，正在着手解决。
+* 资源约束：Docker现在能限制CPU的使用率和内存用量。目前还不能直接限制磁盘的使用情况。
+* 易于安装：Docker有一个Docker Index，这个仓库存储了现成的Docker镜像，你用一条命令就可以完成实例化。比如说，要使用Clojure REPL镜像，只要运行docker run -t -i zefhemel/clojure-repl命令就能自动获取并运行该镜像。
+* 易于移除：不需要应用了？销毁容器就行。
+* 升级、降级：和EC2VM一样：先启动应用的新版本，然后把负载均衡器切换到新的端口。
+* 快照、备份：Docker能提交镜像并给镜像打标签，和EC2上的快照不同，Docker是立即处理的。
  
  
 * [Docker Getting Start: Related Knowledge ](http://tiewei.github.io/cloud/Docker-Getting-Start/)
