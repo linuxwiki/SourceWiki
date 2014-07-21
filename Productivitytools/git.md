@@ -48,7 +48,7 @@ Git的核心数是很简单的，就是一个链表(或者一棵树更准确一�
             [1]: 28415f07ca9281d0ed86cdc766629fb4ea35ea38
             [2]: ed5cfa40b80da97b56698466d03ab126c5eec5a9
             [3]: 1b5ca12a6cf11a9b89dbeee2e5431a1a98ea5e39
-        pre_commit: null
+            pre_commit: null
         next_commit: null
 
 当修改了 `file_b`, 再提交一次时，数据结构应该是这样的:
@@ -68,8 +68,8 @@ Git的核心数是很简单的，就是一个链表(或者一棵树更准确一�
             [1]: 28415f07ca9281d0ed86cdc766629fb4ea35ea38
             [2]: ed5cfa40b80da97b56698466d03ab126c5eec5a9
             [3]: 1b5ca12a6cf11a9b89dbeee2e5431a1a98ea5e39
-    pre_commit: commit_a08a57561b5c30b9c0bf33829349e14fad1f5cff
-    next_commit: null
+        pre_commit: commit_a08a57561b5c30b9c0bf33829349e14fad1f5cff
+        next_commit: null
     
     commit_a08a57561b5c30b9c0bf33829349e14fad1f5cff:
         base_info:
@@ -80,8 +80,8 @@ Git的核心数是很简单的，就是一个链表(或者一棵树更准确一�
             [1]: 28415f07ca9281d0ed86cdc766629fb4ea35ea38
             [2]: 39015ba6f80eb9e7fdad3602ef2b1af0521eba89
             [3]: 1b5ca12a6cf11a9b89dbeee2e5431a1a98ea5e39
-    pre_commit: null
-    next_commit: commit_26b985d269d3a617af4064489199c3e0d4791bb5
+        pre_commit: null
+        next_commit: commit_26b985d269d3a617af4064489199c3e0d4791bb5
 
 当提交完第二次的时候，执行 `git log`，实际上就是从 `commit_a08a57561b5c30b9c0bf33829349e14fad1f5cff` 开始遍历然后打印 `base_info` 而已。
 
