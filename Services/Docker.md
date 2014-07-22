@@ -1,6 +1,6 @@
 # 轻量级虚拟化Docker
 
-## Docker基本介绍
+## 一、Docker基本介绍
 
 Docker发端于一个名为dotcloud的开源项目；随着编写者不断挖掘它的潜力，它迅速变成了一个炙手可热的项目。它由GO语言编写的，并且只支持Linux。它基于Linux容器（LxC）来创建一个虚拟环境。Docker不会通过建立独有的操作系统、进程和对硬件进行模拟来创建属于自己的虚拟机。请注意：虚拟环境VE(Virtual Environment)和虚拟机（VM）很不一样。虚拟机是由虚拟工具或者模拟器（HyperV 、VMWare等）创建的，是一个全镜像的主机源，其中包括操作系统、硬盘调整、网络和虚拟进程。过于臃肿的结构吃掉了大量的硬盘空间同时拖慢了运行和开机速度。
  
@@ -41,12 +41,13 @@ Docker实践解决方案：
 - 升级、降级：和EC2VM一样：先启动应用的新版本，然后把负载均衡器切换到新的端口。
 - 快照、备份：Docker能提交镜像并给镜像打标签，和EC2上的快照不同，Docker是立即处理的。
  
- 
+参考文档：
+
 - [Docker Getting Start: Related Knowledge ](http://tiewei.github.io/cloud/Docker-Getting-Start/)
 - [谁是容器中的“战斗机”？Docker与Chef、LXC等容器对比](http://code.csdn.net/news/2819773)
 - [Docker：利用Linux容器实现可移植的应用部署](http://www.infoq.com/cn/articles/docker-containers)
 
-## docker 安装配置
+## 二、docker 安装配置
 
 ### Docker install
  
@@ -122,7 +123,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 - detach：`Ctrl-p + Ctrl-q`
 - attach: `docker attach CONTAINER ID`
 
-## docker常用命令
+## 三、docker常用命令
 
 ### docker help
 
@@ -143,8 +144,8 @@ Commands:
     events    Get real time events from the server          # 从docker服务获取容器实时事件
     export    Stream the contents of a container as a tar archive   
               # 导出容器的内容流作为一个tar归档文件[对应import]
-    history   Show the history of an image  # 展示一个镜像形成历史
-    images    List images                   # 列出系统当前镜像
+    history   Show the history of an image                  # 展示一个镜像形成历史
+    images    List images                                   # 列出系统当前镜像
     import    Create a new filesystem image from the contents of a tarball  
               # 从tar包中的内容创建一个新的文件系统映像[对应export]
     info      Display system-wide information               # 显示系统相关信息
@@ -153,29 +154,29 @@ Commands:
     load      Load an image from a tar archive              # 从一个tar包中加载一个镜像[对应save]
     login     Register or Login to the docker registry server   
               # 注册或者登陆一个docker源服务器
-    logs      Fetch the logs of a container             # 输出当前容器日志信息
+    logs      Fetch the logs of a container                 # 输出当前容器日志信息
     port      Lookup the public-facing port which is NAT-ed to PRIVATE_PORT
               # 查看映射端口对应的容器内部源端口
-    pause     Pause all processes within a container    # 暂停容器
-    ps        List containers                           # 列出容器列表
+    pause     Pause all processes within a container        # 暂停容器
+    ps        List containers                               # 列出容器列表
     pull      Pull an image or a repository from the docker registry server
               # 从docker镜像源服务器拉取指定镜像或者库镜像
     push      Push an image or a repository to the docker registry server
               # 推送指定镜像或者库镜像至docker源服务器
-    restart   Restart a running container               # 重启运行的容器
-    rm        Remove one or more containers             # 移除一个或者多个容器
+    restart   Restart a running container                   # 重启运行的容器
+    rm        Remove one or more containers                 # 移除一个或者多个容器
     rmi       Remove one or more images                 
               # 移除一个或多个镜像[无容器使用该镜像才可删除，否则需删除相关容器才可继续或-f强制删除]
     run       Run a command in a new container
               # 在一个新的容器中运行一个命令
-    save      Save an image to a tar archive            # 保存一个镜像为一个tar包[对应load]
-    search    Search for an image in the docker index   # 在docker index中搜索镜像
-    start     Start a stopped containers    # 启动容器
-    stop      Stop a running containers     # 停止容器
-    tag       Tag an image into a repository        # 给源中镜像打标签
-    top       Lookup the running processes of a container # 查看容器中运行的进程信息
-    unpause   Unpause a paused container            # 取消暂停容器
-    version   Show the docker version information   # 查看docker版本号
+    save      Save an image to a tar archive                # 保存一个镜像为一个tar包[对应load]
+    search    Search for an image in the docker index       # 在docker index中搜索镜像
+    start     Start a stopped containers                    # 启动容器
+    stop      Stop a running containers                     # 停止容器
+    tag       Tag an image into a repository                # 给源中镜像打标签
+    top       Lookup the running processes of a container   # 查看容器中运行的进程信息
+    unpause   Unpause a paused container                    # 取消暂停容器
+    version   Show the docker version information           # 查看docker版本号
     wait      Block until a container stops, then print its exit code   
               # 截取容器停止时的退出状态值
 ```
@@ -186,20 +187,20 @@ docker选项帮助
 ``` bash
 $ sudo docker --help
 Usage of docker:
-  --api-enable-cors=false                Enable CORS headers in the remote API                  # 远程API中开启CORS头
-  -b, --bridge=""                        Attach containers to a pre-existing network bridge     # 桥接网络
+  --api-enable-cors=false                Enable CORS headers in the remote API                    # 远程API中开启CORS头
+  -b, --bridge=""                        Attach containers to a pre-existing network bridge       # 桥接网络
                                            use 'none' to disable container networking
   --bip=""                               Use this CIDR notation address for the network bridge's IP, not compatible with -b
                                          # 和-b选项不兼容，具体没有测试过
-  -d, --daemon=false                     Enable daemon mode     # daemon模式
-  -D, --debug=false                      Enable debug mode      # debug模式
-  --dns=[]                               Force docker to use specific DNS servers           # 强制docker使用指定dns服务器
-  --dns-search=[]                        Force Docker to use specific DNS search domains    # 强制docker使用指定dns搜索域
-  -e, --exec-driver="native"             Force the docker runtime to use a specific exec driver  # 强制docker运行时使用指定执行驱动器
+  -d, --daemon=false                     Enable daemon mode                                       # daemon模式
+  -D, --debug=false                      Enable debug mode                                        # debug模式
+  --dns=[]                               Force docker to use specific DNS servers                 # 强制docker使用指定dns服务器
+  --dns-search=[]                        Force Docker to use specific DNS search domains          # 强制docker使用指定dns搜索域
+  -e, --exec-driver="native"             Force the docker runtime to use a specific exec driver   # 强制docker运行时使用指定执行驱动器
   -G, --group="docker"                   Group to assign the unix socket specified by -H when running in daemon mode
                                            use '' (the empty string) to disable setting of a group
-  -g, --graph="/var/lib/docker"          Path to use as the root of the docker runtime      # 容器运行的根目录路径
-  -H, --host=[]                          The socket(s) to bind to in daemon mode            # daemon模式下docker指定绑定方式[tcp or 本地socket]
+  -g, --graph="/var/lib/docker"          Path to use as the root of the docker runtime            # 容器运行的根目录路径
+  -H, --host=[]                          The socket(s) to bind to in daemon mode                  # daemon模式下docker指定绑定方式[tcp or 本地socket]
                                            specified using one or more tcp://host:port, unix:///path/to/socket, fd://* or fd://socketfd.
   --icc=true                             Enable inter-container communication                       # 跨容器通信
   --ip="0.0.0.0"                         Default IP address to use when binding container ports     # 指定监听地址，默认所有ip
@@ -249,9 +250,9 @@ ubuntu    Official Ubuntu base image   425       [OK]
 
 ``` bash
 $ sudo docker info 
-Containers: 7           # 容器个数
-Images: 102             # 镜像个数
-Storage Driver: aufs    # 存储驱动，默认aufs
+Containers: 7                       # 容器个数
+Images: 102                         # 镜像个数
+Storage Driver: aufs                # 存储驱动，默认aufs
  Root Dir: /var/lib/docker/aufs     # 根目录
  Dirs: 116
 Execution Driver: native-0.2        # 执行驱动
@@ -289,7 +290,7 @@ $ sudo docker push 192.168.0.100:5000/ubuntu:14.04
 # 推送指定镜像到私有源
 ```
 
-#### docker images
+#### 四、docker images
 
 列出当前系统镜像
 
@@ -344,23 +345,23 @@ Usage: docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 Run a command in a new container
 
   -a, --attach=[]            Attach to stdin, stdout or stderr.
-  -c, --cpu-shares=0         CPU shares (relative weight)                   # 设置cpu使用权重
-  --cidfile=""               Write the container ID to the file             # 把容器id写入到指定文件
-  --cpuset=""                CPUs in which to allow execution (0-3, 0,1)    # cpu绑定
+  -c, --cpu-shares=0         CPU shares (relative weight)                       # 设置cpu使用权重
+  --cidfile=""               Write the container ID to the file                 # 把容器id写入到指定文件
+  --cpuset=""                CPUs in which to allow execution (0-3, 0,1)        # cpu绑定
   -d, --detach=false         Detached mode: Run container in the background, print new container id # 后台运行容器
-  --dns=[]                   Set custom dns servers             # 设置dns
-  --dns-search=[]            Set custom dns search domains      # 设置dns域搜索
-  -e, --env=[]               Set environment variables          # 定义环境变量
+  --dns=[]                   Set custom dns servers                             # 设置dns
+  --dns-search=[]            Set custom dns search domains                      # 设置dns域搜索
+  -e, --env=[]               Set environment variables                          # 定义环境变量
   --entrypoint=""            Overwrite the default entrypoint of the image      # ？
   --env-file=[]              Read in a line delimited file of ENV variables     # 从指定文件读取变量值
   --expose=[]                Expose a port from the container without publishing it to your host    # 指定对外提供服务端口
-  -h, --hostname=""          Container host name    # 设置容器主机名
-  -i, --interactive=false    Keep stdin open even if not attached           # 保持标准输出开启即使没有attached
-  --link=[]                  Add link to another container (name:alias)     # 添加链接到另外一个容器[这个会专门章节讲解]
+  -h, --hostname=""          Container host name                                # 设置容器主机名
+  -i, --interactive=false    Keep stdin open even if not attached               # 保持标准输出开启即使没有attached
+  --link=[]                  Add link to another container (name:alias)         # 添加链接到另外一个容器[这个会专门章节讲解]
   --lxc-conf=[]              (lxc exec-driver only) Add custom lxc options --lxc-conf="lxc.cgroup.cpuset.cpus = 0,1"
   -m, --memory=""            Memory limit (format: <number><optional unit>, where unit = b, k, m or g) # 内存限制
-  --name=""                  Assign a name to the container     # 设置容器名
-  --net="bridge"             Set the Network mode for the container     # 设置容器网络模式
+  --name=""                  Assign a name to the container                     # 设置容器名
+  --net="bridge"             Set the Network mode for the container             # 设置容器网络模式
                                'bridge': creates a new network stack for the container on the docker bridge
                                'none': no networking for this container
                                'container:<name|id>': reuses another container network stack
@@ -409,13 +410,13 @@ __关于cpu优先级:__
 * docker stop CONTAINER [CONTAINER...]  # 停掉一个或多个运行的容器 `-t`选项可指定超时时间 
 * docker kill [OPTIONS] CONTAINER [CONTAINER...] # 默认kill发送SIGKILL信号 `-s`可以指定发送kill信号类型
 * docker restart [OPTIONS] CONTAINER [CONTAINER...] # 重启一个或多个运行的容器 `-t`选项可指定超时时间
-* docker pause CONTAINER                # 暂停一个容器，方便commit
-* docker unpause CONTAINER              # 继续暂停的容器
-* docker rm [OPTIONS] CONTAINER [CONTAINER...] # 移除一个或多个容器
+* docker pause CONTAINER                        # 暂停一个容器，方便commit
+* docker unpause CONTAINER                      # 继续暂停的容器
+* docker rm [OPTIONS] CONTAINER [CONTAINER...]  # 移除一个或多个容器
     * -f, --force=false      Force removal of running container
     * -l, --link=false       Remove the specified link and not the underlying container 
     * -v, --volumes=false    Remove the volumes associated with the container
-* docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]] # 提交指定容器为镜像
+* docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]  # 提交指定容器为镜像
     * -a, --author=""     Author (e.g., "John Hannibal Smith <hannibal@a-team.com>")
     * -m, --message=""    Commit message
     * -p, --pause=true    Pause container during commit # 默认commit是暂停状态
@@ -426,7 +427,7 @@ __关于cpu优先级:__
 
 * [Docker Run Reference](https://docs.docker.com/reference/run/)
 
-## docker端口映射
+## 五、docker端口映射
 
 
 ``` bash
@@ -478,7 +479,7 @@ $ sudo docker run -p 8080 <image> <cmd>
 $ sudo docker run -p 127.0.0.1:53:5353/udp <image> <cmd>
 ```
 
-## 配置网络
+## 六、配置网络
 
 Docker uses Linux bridge capabilities to provide network connectivity to containers. The docker0 bridge interface is managed by Docker for this purpose. When the Docker daemon starts it :
  
@@ -613,7 +614,7 @@ dns-search intranet.123u.com
 - [pipework readme](https://github.com/jpetazzo/pipework/blob/master/README.md)
 - [pipework-docker网络增强工具](http://peerxu.github.io/blog/2014/04/07/docker-with-openvswitch.html)
 
-## 构建docker私有库
+## 七、构建docker私有库
 
 为方便管理，我们需要对官方的镜像做一些定制，我们可以构建私有的`docker registry`
 
