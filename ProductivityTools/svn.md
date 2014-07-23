@@ -99,7 +99,7 @@ SVN 分支其实只是做了一份拷贝而已(svn copy), 但是它并不是物�
 
 这些关键字可以用来代替 `--revision(r)` 的数字参数，这会被 Subversion 解释到特定的修订版本号。
 
-+ `HEAD` : 版本库中最新的（或者是 "最年轻的）版本。
++ `HEAD` : 版本库中最新的（或者是 "最年轻的"）版本。
 + `BASE` : 工作拷贝中一个条目的修订版本号，如果这个版本在本地修改了，则“BASE版本”就是这个条目在本地未修改的版本。
 + `COMMITTED` : 项目最近修改的修订版本，与BASE相同或更早。
 + `PREV` : 一个项目最后修改版本之前的那个版本，技术上可以认为是COMMITTED -1。
@@ -108,4 +108,3 @@ SVN 分支其实只是做了一份拷贝而已(svn copy), 但是它并不是物�
 
 我感觉 SVN 和 Git 设计的本质区别在于 SVN 核心点在于它的目录，而 Git 的核心点在于它的 Commit(结点)。这也就说明了 SVN 可以 checkout 某一个目录，Git 不行。SVN 的分支可以理解成一个目录，而 Git 的分支只不过是某个 Commit 上的快照而已。
 
-实时更新在: http://linuxwiki.github.io/ProductivityTools/svn.html
