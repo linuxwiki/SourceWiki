@@ -9,7 +9,7 @@ Docker发端于一个名为dotcloud的开源项目；随着编写者不断挖掘
 - **强大的可移植性**：你可以使用Docker创造一个绑定了你所有你所需要的应用的对象。这个对象可以被转移并被安装在任何一个安装了 Docker 的 Linux 主机上。
 - **版本控制**： Docker自带git功能，能够跟踪一个容器的成功版本并记录下来，并且可以对不同的版本进行检测，提交新版本，回滚到任意的一个版本等功能等等。
 - **组件的可重用性**： Docker 允许创建或是套用一个已经存在的包。举个例子，如果你有许多台机器都需要安装 Apache 和 MySQL 数据库，你可以创建一个包含了这两个组件的‘基础镜像’。然后在创建新机器的时候使用这个镜像进行安装就行了。
-- **可分享的类库**：已经有上千个可用的容器被上传并被分享到一个共有仓库中[http://index.docker.io/](http://index.docker.io/)。考虑到AWS对于不同环境下的调试和发布，这一做法是十分聪明的。
+- **可分享的类库**：已经有上千个可用的容器被上传并被分享到一个共有仓库中[registry.hub.docker.com](https://registry.hub.docker.com/)。考虑到AWS对于不同环境下的调试和发布，这一做法是十分聪明的。
  
 > LxC是一个Linux提供的收容功能接口，通过LxC提供的API和简单的工具，使得Linux用户可以简单的创建和管理系统或者应用的空间。[LXC容器](http://www.ibm.com/developerworks/cn/linux/l-lxc-containers/)
  
@@ -19,16 +19,6 @@ Docker通常用于如下场景：
     自动化测试和持续集成、发布；
     在服务型环境中部署和调整数据库或其他的后台应用；
     从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境。
- 
-Docker并不是全能的，设计之初也不是KVM之类虚拟化手段的替代品：
- 
-- Docker是基于Linux 64bit的，无法在windows/unix或32bit的linux环境下使用
-- LXC是基于cgroup等linux kernel功能的，因此container的guest系统只能是linux base的
-- 隔离性相比KVM之类的虚拟化方案还是有些欠缺，所有container公用一部分的运行库
-- 网络管理相对简单，主要是基于namespace隔离
-- cgroup的cpu和cpuset提供的cpu功能相比KVM的等虚拟化方案相比难以度量
-- docker对disk的管理比较有限
-- container随着用户进程的停止而销毁，container中的log等用户数据不便收集
  
 Docker实践解决方案：
  
@@ -49,7 +39,7 @@ Docker实践解决方案：
 
 ## 二、docker 安装配置
 
-### Docker install
+### 2.1、Docker install
  
 Docker的安装非常简单，这里只介绍Ubuntu 14.04的安装，其他发行版本的安装可以参考官网手册。
  
@@ -63,28 +53,29 @@ $ sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
  
 ``` bash
 $ sudo docker version
-Client version: 0.9.1
+Client version: 1.1.1
+Client API version: 1.13
 Go version (client): go1.2.1
-Git commit (client): 3600720
-Server version: 0.9.1
-Git commit (server): 3600720
+Git commit (client): bd609d2
+Server version: 1.1.1
+Server API version: 1.13
 Go version (server): go1.2.1
-Last stable version: 0.11.1, please update docker
+Git commit (server): bd609d2
 ```
  
 - [Docker install on ubuntu](http://docs.docker.io/installation/ubuntulinux/)
  
 ## 三、Docker images
  
-- [Docker index](https://index.docker.io/) Docker镜像首页，包括官方镜像和其它公开镜像
+- [Docker index](https://registry.hub.docker.com/) Docker镜像首页，包括官方镜像和其它公开镜像
  
-### Search index images
+### 3.1、Search index images
  
 ``` bash
 $ sudo docker search ubuntu
 ```
  
-### Pull images
+### 3.2、Pull images
  
 ``` bash
 $ sudo docker pull ubuntu # remote index 获取ubuntu官方镜像
@@ -96,7 +87,7 @@ ubuntu              12.04               74fe38d11401        3 weeks ago         
 ... ...
 ```
  
-### Running an interactive shell
+### 3.3、Running an interactive shell
  
 ``` bash
 $ sudo docker run -i -t ubuntu:14.04 /bin/bash
@@ -117,7 +108,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 6c9129e9df10        ubuntu:14.04        /bin/bash           6 minutes ago       Up 6 minutes                            cranky_babbage
 ```
 
-### 相关快捷键
+### 3.4、相关快捷键
 
 - 退出：`Ctrl-D` or `exit`
 - detach：`Ctrl-p + Ctrl-q`
@@ -125,7 +116,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 ## 四、docker常用命令
 
-### docker help
+### 4.1、docker help
 
 ``` bash
 $ sudo docker   # docker命令帮助
@@ -187,20 +178,20 @@ docker选项帮助
 ``` bash
 $ sudo docker --help
 Usage of docker:
-  --api-enable-cors=false                Enable CORS headers in the remote API                    # 远程API中开启CORS头
-  -b, --bridge=""                        Attach containers to a pre-existing network bridge       # 桥接网络
+  --api-enable-cors=false                Enable CORS headers in the remote API                      # 远程API中开启CORS头
+  -b, --bridge=""                        Attach containers to a pre-existing network bridge         # 桥接网络
                                            use 'none' to disable container networking
   --bip=""                               Use this CIDR notation address for the network bridge's IP, not compatible with -b
                                          # 和-b选项不兼容，具体没有测试过
-  -d, --daemon=false                     Enable daemon mode                                       # daemon模式
-  -D, --debug=false                      Enable debug mode                                        # debug模式
-  --dns=[]                               Force docker to use specific DNS servers                 # 强制docker使用指定dns服务器
-  --dns-search=[]                        Force Docker to use specific DNS search domains          # 强制docker使用指定dns搜索域
-  -e, --exec-driver="native"             Force the docker runtime to use a specific exec driver   # 强制docker运行时使用指定执行驱动器
+  -d, --daemon=false                     Enable daemon mode                                         # daemon模式
+  -D, --debug=false                      Enable debug mode                                          # debug模式
+  --dns=[]                               Force docker to use specific DNS servers                   # 强制docker使用指定dns服务器
+  --dns-search=[]                        Force Docker to use specific DNS search domains            # 强制docker使用指定dns搜索域
+  -e, --exec-driver="native"             Force the docker runtime to use a specific exec driver     # 强制docker运行时使用指定执行驱动器
   -G, --group="docker"                   Group to assign the unix socket specified by -H when running in daemon mode
                                            use '' (the empty string) to disable setting of a group
-  -g, --graph="/var/lib/docker"          Path to use as the root of the docker runtime            # 容器运行的根目录路径
-  -H, --host=[]                          The socket(s) to bind to in daemon mode                  # daemon模式下docker指定绑定方式[tcp or 本地socket]
+  -g, --graph="/var/lib/docker"          Path to use as the root of the docker runtime              # 容器运行的根目录路径
+  -H, --host=[]                          The socket(s) to bind to in daemon mode                    # daemon模式下docker指定绑定方式[tcp or 本地socket]
                                            specified using one or more tcp://host:port, unix:///path/to/socket, fd://* or fd://socketfd.
   --icc=true                             Enable inter-container communication                       # 跨容器通信
   --ip="0.0.0.0"                         Default IP address to use when binding container ports     # 指定监听地址，默认所有ip
@@ -221,7 +212,7 @@ Usage of docker:
   -v, --version=false                    Print version information and quit                         # 输出docker版本信息
 ```
 
-#### docker search
+#### 4.1.1、docker search
 
 官方镜像源地址：[registry.hub.docker.com](https://registry.hub.docker.com/)
 
@@ -246,7 +237,7 @@ NAME      DESCRIPTION                  STARS     OFFICIAL   AUTOMATED
 ubuntu    Official Ubuntu base image   425       [OK]       
 ```
 
-#### docker info
+####  4.1.2、docker info
 
 ``` bash
 $ sudo docker info 
@@ -260,7 +251,7 @@ Kernel Version: 3.13.0-24-generic
 WARNING: No swap limit support
 ```
 
-#### docker pull && docker push
+####  4.1.3、docker pull && docker push
 
 ``` bash
 $ sudo docker pull                  # pull拉取镜像
@@ -290,7 +281,7 @@ $ sudo docker push 192.168.0.100:5000/ubuntu:14.04
 # 推送指定镜像到私有源
 ```
 
-#### 四、docker images
+#### 4.1.4、docker images
 
 列出当前系统镜像
 
@@ -320,7 +311,7 @@ ubuntu                     14.04               e54ca5efa2e9        4 weeks ago  
 ubuntu                     14.04-ssh           6334d3ac099a        7 weeks ago         383.2 MB
 ```
 
-#### docker rmi
+#### 4.1.5、docker rmi
 
 删除一个或者多个镜像
 
@@ -335,7 +326,7 @@ Remove one or more images
   --no-prune=false     Do not delete untagged parents   # 不要删除未标记的父镜像
 ``` 
 
-#### docker run
+#### 4.1.6、docker run
 
 ``` bash
 $ sudo docker run 
@@ -375,7 +366,8 @@ Run a command in a new container
   --sig-proxy=true           Proxify received signals to the process (even in non-tty mode). SIGCHLD is not proxied. # ？
   -t, --tty=false            Allocate a pseudo-tty                              # 分配伪终端
   -u, --user=""              Username or UID                                    # 指定运行容器的用户uid或者用户名
-  -v, --volume=[]            Bind mount a volume (e.g., from the host: -v /host:/container, from docker: -v /container)     # 挂载卷[这个会专门章节讲解]
+  -v, --volume=[]            Bind mount a volume (e.g., from the host: -v /host:/container, from docker: -v /container)     
+                             # 挂载卷[这个会专门章节讲解]
   --volumes-from=[]          Mount volumes from the specified container(s)      # 从指定容器挂载卷
   -w, --workdir=""           Working directory inside the container             # 指定容器工作目录
 ```
@@ -404,7 +396,9 @@ __关于cpu优先级:__
 
 > By default all groups have 1024 shares. A group with 100 shares will get a ~10% portion of the CPU time:
 
-#### docker start|stop|kill|restart|pause|unpause|rm|commit|inspect
+#### 4.1.7、docker start|stop|kill... ...
+
+docker `start`|`stop`|`kill`|`restart`|`pause`|`unpause`|`rm`|`commit`|`inspect`
 
 * docker start CONTAINER [CONTAINER...] # 运行一个或多个停止的容器
 * docker stop CONTAINER [CONTAINER...]  # 停掉一个或多个运行的容器 `-t`选项可指定超时时间 
@@ -423,12 +417,11 @@ __关于cpu优先级:__
 * docker inspect CONTAINER|IMAGE [CONTAINER|IMAGE...]   # 查看容器或者镜像的详细信息
 
 
-### 参考文档
+### 4.2、参考文档
 
 * [Docker Run Reference](https://docs.docker.com/reference/run/)
 
 ## 五、docker端口映射
-
 
 ``` bash
 # Find IP address of container with ID <container_id> 通过容器id获取ip
@@ -439,7 +432,7 @@ $ sudo docker inspect <container_id> | grep IPAddress | cut -d ’"’ -f 4
  
 Docker解决了容器的这两个问题，并且给容器内部服务的访问提供了一个简单而可靠的方法。Docker通过端口绑定主机系统的接口，允许非本地客户端访问容器内部运行的服务。为了简便的使得容器间通信，Docker提供了这种连接机制。
  
-### 自动映射端口
+### 5.1、自动映射端口
  
 `-P`使用时需要指定`--expose`选项，指定需要对外提供服务的端口
  
@@ -449,7 +442,7 @@ $ sudo docker run -t -P --expose 22 --name server  ubuntu:14.04
  
 使用`docker run -P`自动绑定所有对外提供服务的容器端口，映射的端口将会从没有使用的端口池中(49000..49900)自动选择，你可以通过`docker ps`、`docker inspect <container_id>`或者`docker port <container_id> <port>`确定具体的绑定信息。
  
-### 绑定端口到指定接口
+### 5.2、绑定端口到指定接口
  
 基本语法
  
@@ -459,7 +452,7 @@ $ sudo docker run -p [([<host_interface>:[host_port]])|(<host_port>):]<container
  
 默认不指定绑定ip则监听所有网络接口。
  
-#### 绑定TCP端口
+#### 5.2.1、绑定TCP端口
  
 ``` bash
 # Bind TCP port 8080 of the container to TCP port 80 on 127.0.0.1 of the host machine.
@@ -472,7 +465,7 @@ $ sudo docker run -p 80:8080 <image> <cmd>
 $ sudo docker run -p 8080 <image> <cmd>
 ```
  
-#### 绑定UDP端口
+#### 5.2.2、绑定UDP端口
  
 ``` bash
 # Bind UDP port 5353 of the container to UDP port 53 on 127.0.0.1 of the host machine.
@@ -490,7 +483,7 @@ Dokcer通过使用Linux桥接提供容器之间的通信，docker0桥接接口�
 - picks an IP in the selected range 在确定的范围中选择ip
 - assigns this IP to the docker0 bridge 绑定ip到docker0
  
-### 列出当前主机网桥
+### 6.1、列出当前主机网桥
  
 ``` bash
 $ sudo brctl show  # brctl工具依赖bridge-utils软件包
@@ -498,7 +491,7 @@ bridge name bridge id STP enabled interfaces
 docker0 8000.000000000000 no
 ```
  
-### 查看当前docker0 ip
+### 6.2、查看当前docker0 ip
  
 ``` bash
 $ sudo ifconfig docker0
@@ -508,7 +501,7 @@ inet addr:172.17.42.1 Bcast:0.0.0.0 Mask:255.255.0.0
  
 在容器运行时，每个容器都会分配一个特定的虚拟机口并桥接到docker0。每个容器都会配置同docker0 ip相同网段的专用ip地址，docker0 的IP地址被用于所有容器的默认网关。
  
-### 运行一个容器
+### 6.3、运行一个容器
  
 ``` bash
 $ sudo docker run -t -i -d ubuntu /bin/bash
@@ -520,7 +513,7 @@ docker0 8000.fef213db5a66 no vethQCDY1N
  
 以上, docker0 扮演着52f811c5d3d6 container这个容器的虚拟接口vethQCDY1N interface桥接的角色。
  
-#### 使用特定范围的IP
+#### 6.3.1、使用特定范围的IP
  
 Docker会尝试寻找没有被主机使用的ip段，尽管它适用于大多数情况下，但是它不是万能的，有时候我们还是需要对ip进一步的规划。Docker允许你管理docker0桥接或者通过`-b`选项自定义桥接网卡，需要安装`bridge-utils`软件包。
  
@@ -561,7 +554,7 @@ Destination Gateway Genmask Flags Metric Ref Use Iface
 192.168.227.0 0.0.0.0 255.255.255.0 U 0 0 0 eth0
 ```
 
-### 不同主机间容器通信
+### 6.4、不同主机间容器通信
 
 不同容器之间的通信可以借助于`pipework`这个工具：
  
@@ -570,13 +563,13 @@ $ git clone https://github.com/jpetazzo/pipework.git
 $ sudo cp -rp pipework/pipework /usr/local/bin/
 ```
  
-#### 安装相应依赖软件
+#### 6.4.1、安装相应依赖软件
  
 ``` bash
 $ sudo apt-get install apring bridge-utils -y
 ```
  
-#### 桥接网络
+#### 6.4.2、桥接网络
  
 Ubuntu14.04
  
@@ -609,7 +602,7 @@ dns-search intranet.123u.com
 # pipework br0 $Bash 10.0.128.223/26
 ```
 
-### 参考文档
+### 6.5、参考文档
 
 - [pipework readme](https://github.com/jpetazzo/pipework/blob/master/README.md)
 - [pipework-docker网络增强工具](http://peerxu.github.io/blog/2014/04/07/docker-with-openvswitch.html)
@@ -618,7 +611,7 @@ dns-search intranet.123u.com
 
 为方便管理，我们需要对官方的镜像做一些定制，我们可以构建私有的`docker registry`
 
-### 快速构建
+### 7.1、快速构建
  
 The fastest way to get running:
  
@@ -627,7 +620,7 @@ The fastest way to get running:
  
 That will use the official image from the Docker index.[因为国内被墙的原因，速度比较慢，推荐第二种方式]
  
-### 传统构建方式
+### 7.2、传统构建方式
  
 ``` bash
 $ sudo apt-get install build-essential python-dev libevent-dev python-pip liblzma-dev
@@ -638,7 +631,7 @@ $ mkdir /data/registry -p
 $ pip install .
 ```
  
-#### 启动
+#### 7.2.1、启动
  
 ``` bash
 $ sudo gunicorn --access-logfile - --debug -k gevent -b 0.0.0.0:5000 \
@@ -652,14 +645,81 @@ $ sudo gunicorn -k gevent --max-requests 100 --graceful-timeout 3600 \
 -t 3600 -b localhost:5000 -w 8 docker_registry.wsgi:application
 ```
  
-#### 提交指定容器到私有库
+#### 7.2.2、提交指定容器到私有库
  
 ``` bash
 $ docker tag 74fe38d11401 192.168.0.219:5000/ubuntu:12.04
 $ docker push 192.168.0.219:5000/ubuntu
 ```
 
-### 参考
+### 7.3、参考
 
 - [docker-registry readme](https://github.com/dotcloud/docker-registry)
 - [How to use your own Registry](http://blog.docker.io/2013/07/how-to-use-your-own-registry/)
+
+## 八、容器数据管理
+
+docker管理数据的方式有两种：
+
+* 数据卷
+* 数据卷容器
+
+### 数据卷
+
+数据库是一个或多个容器专门指定绕过`Union File System`的目录，为持续性或共享数据提供一些有用的功能：
+
+* 数据卷可以在容器间共享和重用
+* 数据卷数据改变是直接修改的
+* 数据卷数据改变不会被包括在容器中
+* 数据卷是持续性的，直到没有容器使用它们
+
+#### 添加一个数据卷
+
+你可以使用`-v`选项添加一个数据卷，或者可以使用多次`-v`选项为一个docker容器运行挂载多个数据卷。
+
+``` bash
+$ sudo docker run --name data -v /data -t -i centos:6.4 /bin/bash
+# 宿主机/data数据卷绑定到到新建容器，新建容器中会创建/data数据卷
+bash-4.1# ls -ld /data/
+drwxr-xr-x 2 root root 4096 Jul 23 06:59 /data/
+bash-4.1# df -Th
+Filesystem    Type    Size  Used Avail Use% Mounted on
+... ...
+              ext4     91G  4.6G   82G   6% /data
+```
+
+创建的数据卷可以通过`docker inspect`获取
+
+``` bash
+$ sudo docker inspect data
+... ...
+    "Volumes": {
+        "/data": "/var/lib/docker/vfs/dir/151de401d268226f96d824fdf444e77a4500aed74c495de5980c807a2ffb7ea9"
+    }, # 可以看到创建的数据卷宿主机路径
+    "VolumesRW": {
+        "/data1": true
+    }
+... ...
+```
+
+#### 挂载宿主机目录为一个数据卷
+
+`-v`选项除了可以创建卷，也可以挂载当前主机的一个目录到容器中。
+
+``` bash
+$ sudo docker run --name web -v /source/:/web -t -i centos:6.4 /bin/bash
+bash-4.1# ls -ld /web/
+drwxr-xr-x 2 root root 4096 Jul 23 06:59 /web/
+bash-4.1# df -Th
+... ...
+              ext4     91G  4.6G   82G   6% /web
+bash-4.1# exit
+```
+
+默认挂载卷是可读写的，可以在挂载时指定只读
+
+``` bash
+$ sudo docker run --rm --name test -v /source/:/test:ro -t -i centos:6.4 /bin/bash
+```
+
+
