@@ -1,4 +1,4 @@
-# losf
+# lsof
 
 list open files
 
