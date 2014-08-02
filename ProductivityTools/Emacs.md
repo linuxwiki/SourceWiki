@@ -103,52 +103,82 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 
 Emacs 的配置文件为 `~/.emacs`，如果没有就 `touch` 一个，插件位置一般在 `~/.emacs.d`，如果没有就 `mkdir` 一个。Emacs 启动时会加载这些配置(也因此会减慢Emacs的启动速度，建议不要给Emacs装太多的插件，看着花哨但不实用)。
 
-打开 `.emacs`，添加如下代码(Lisp):
+用 `y/n` 代替 `yes/no`:
 
-    (fset 'yes-or-no-p 'y-or-n-p) ; 用 y/n 代替 yes/no
-    (setq make-backup-files nil)  ; 去掉自动备份，有利有弊，我嫌麻烦，就去掉了
-    (setq-default indent-tabs-mode nil) ; 空格代替 tab
-    
-    (show-paren-mode t)           ; 匹配括号高亮
-    ;; 使用 `%` 进行匹配括号跳转(模仿vim), Emacs 的内置的 `C-M-p` 和 `C-M-n` 是用来做
-    ;; 跳转的，但是这会和很多终端的快捷键冲突。所以一般用不了。
-    (global-set-key "%" 'match-paren)
-    (defun match-paren (arg)
-      "Go to the matching paren if on a paren; otherwise insert %."
-      (interactive "p")
-      (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
-    	((looking-at "\\s\)") (forward-char 1) (backward-list 1))
-    	(t (self-insert-command (or arg 1)))))
-    
-    ;; 括号自动补全和缩进
+    (fset 'yes-or-no-p 'y-or-n-p)
+
+设置编码为 UTF-8
+
+    (setq locale-coding-system 'utf-8)
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (set-selection-coding-system 'utf-8)
+    (prefer-coding-system 'utf-8)
+
+`C-c e` 打开 eshell, `C-c l`清空 eshell:
+
+    (defun clear-eshell-buffer ()
+      (interactive)
+      (let ((inhibit-read-only t))
+        (delete-region (point-min) (point-max))))
+    (global-set-key (kbd "C-c l") 'clear-eshell-buffer)
+    (global-set-key (kbd "C-c e") 'eshell)
+
+tab -> 空格:
+
+    (setq-default indent-tabs-mode nil)
+
+括号匹配、对齐、补全：
+
+    (show-paren-mode t)
     (require 'electric)
     (electric-indent-mode t)
     (electric-pair-mode t)
     (electric-layout-mode t)
     
-    ;; 保存时删除多余的空白字符
+
+保存时删除多余的空白字符:
+    
     (add-hook 'before-save-hook 'delete-trailing-whitespace)
     (setq show-trailing-whitespace t)
-    
-    ;; 优化打开文件和缓冲区切换，这下有提示了!(ido是Emacs自带的插件)
-    (require 'ido)
-    (ido-mode t)
-    
-    ;; `C-x` 配合上下左右箭头，切换窗口 
-    (global-set-key (kbd "C-x <up>") 'windmove-up)
-    (global-set-key (kbd "C-x <down>") 'windmove-down)
-    (global-set-key (kbd "C-x <right>") 'windmove-right)
-    (global-set-key (kbd "C-x <left>") 'windmove-left)
-    
-    ;; 使用 M-(1,2,3...9)窗口切换，需要下载 windows-numbering 这个插件，并手动加载
-    ;; windows-numbering 很好用，推荐!
+
+去掉自动保存和备份:
+
+    (setq auto-save-default nil)
+    (setq make-backup-files nil)
+
+
+行号:
+
+    (setq linum-format "%3d|")
+    (global-linum-mode 1)
+
+自动换行：
+
+    (global-visual-line-mode 1)
+    (blink-cursor-mode -1)
+
+使用 M-(1,2,3...9)窗口切换(依赖于 windows-numbering 插件):
+
     (add-to-list 'load-path "~/.emacs.d/lisp/window-numbering.el")
     (require 'window-numbering)
     (setq window-numbering-assign-func
           (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
     (window-numbering-mode 1)
 
-Tip: `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便。 
+Mini Buffer 优化(依赖 smex 插件，ido 是 Emacs 自带的):
+
+    ;; C-x f/b
+    (require 'ido)
+    (ido-mode t)
+    ;; M-x
+    (add-to-list 'load-path "~/.emacs.d/lisp/smex")
+    (require 'smex)
+    (smex-initialize)
+    (global-set-key (kbd "M-x") 'smex)
+    (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
+Tip:  `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便。
 
 # 四、高级定制
 
@@ -312,7 +342,19 @@ etags 使用:
 
 + `F9` : 在头文件和对应源文件之间跳转: `(global-set-key [(f9)] 'ff-find-other-file)`
 
-## 4.8 Emacs主题
+## 4.8 [谷歌翻译](https://github.com/atykhonov/google-translate.git)
+
+
+    (add-to-list 'load-path "~/.emacs.d/lisp/google-translate")
+    (require 'google-translate)
+    (require 'google-translate-smooth-ui)
+    (global-set-key "\C-ct" 'google-translate-smooth-translate)
+    (setq google-translate-translation-directions-alist
+          '(("en" . "zh-CN") ("zh-CN" . "en") ))
+
+`C-c t` 打开翻译，我指定了英->中，中->英两种翻译模式。
+
+## 4.9 Emacs主题
 
 把 主题 放到最后，是想告诉大家，使用 Emacs(或者其它任何工具) 时，不要花时间在这些炫酷的东西上面，还是要聚焦于实用和高效。Emacs24自带了几款主题(Emacs23没有的哦)，使用 `M-x customize-theme` 回车可查看配色效果。确定喜欢的一款注意后在配置文件中添加一行代码就可以啦。
 
@@ -326,6 +368,7 @@ etags 使用:
 
 ## 5.2 网站(博客)
 
++ [MELPA](http://melpa.milkbox.net/) : N多插件等你选，同时也可以感受一下 Emacs 的强大。
 + [GNU Emacs Manuals Online](http://www.gnu.org/software/emacs/manual/)
 + [Emacs Redux](http://emacsredux.com/)
 + [Emacs Markdown Mode](http://jblevins.org/projects/markdown-mode/)
