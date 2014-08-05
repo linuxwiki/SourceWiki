@@ -380,7 +380,7 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 ubuntu              14.04               e54ca5efa2e9        4 weeks ago         276.5 MB
 ... ...
 $ sudo docker run -t -i -c 100 -m 512MB -h test1 -d --name="docker_test1" ubuntu /bin/bash 
-# 创建一个cpu优先级为1，内存限制512MB，主机名为test1，名为docker_test1后台运行bash的容器
+# 创建一个cpu优先级为100，内存限制512MB，主机名为test1，名为docker_test1后台运行bash的容器
 a424ca613c9f2247cd3ede95adfbaf8d28400cbcb1d5f9b69a7b56f97b2b52e5
 $ sudo docker ps 
 CONTAINER ID        IMAGE           COMMAND         CREATED             STATUS              PORTS       NAMES
@@ -398,7 +398,7 @@ __关于cpu优先级:__
 
 #### 4.1.7、docker start|stop|kill... ...
 
-docker `start`|`stop`|`kill`|`restart`|`pause`|`unpause`|`rm`|`commit`|`inspect`
+docker `start`|`stop`|`kill`|`restart`|`pause`|`unpause`|`rm`|`commit`|`inspect`|`logs`
 
 * docker start CONTAINER [CONTAINER...] # 运行一个或多个停止的容器
 * docker stop CONTAINER [CONTAINER...]  # 停掉一个或多个运行的容器 `-t`选项可指定超时时间 
@@ -415,7 +415,10 @@ docker `start`|`stop`|`kill`|`restart`|`pause`|`unpause`|`rm`|`commit`|`inspect`
     * -m, --message=""    Commit message
     * -p, --pause=true    Pause container during commit # 默认commit是暂停状态
 * docker inspect CONTAINER|IMAGE [CONTAINER|IMAGE...]   # 查看容器或者镜像的详细信息
-
+* docker logs CONTAINER                                 # 输出指定容器日志信息
+    * -f, --follow=false        Follow log output       # 类似tail -f
+    * -t, --timestamps=false    Show timestamps
+    * --tail="all"              Output the specified number of lines at the end of logs (defaults to all logs)
 
 ### 4.2、参考文档
 
@@ -532,7 +535,7 @@ $ sudo service docker stop
 $ sudo ifconfig docker0 down
 $ sudo brctl addbr bridge0
 $ sudo ifconfig bridge0 192.168.227.1 netmask 255.255.255.0
-# Edit your Docker startup file [ubuntu12.04配置文件为docker.io]
+# Edit your Docker startup file
 $ echo "DOCKER_OPTS=\"-b=bridge0\"" >> /etc/default/docker
 # Start Docker
 $ sudo service docker start
@@ -566,7 +569,7 @@ $ sudo cp -rp pipework/pipework /usr/local/bin/
 #### 6.4.1、安装相应依赖软件
  
 ``` bash
-$ sudo apt-get install apring bridge-utils -y
+$ sudo apt-get install arping bridge-utils -y
 ```
  
 #### 6.4.2、桥接网络
@@ -664,7 +667,7 @@ docker管理数据的方式有两种：
 * 数据卷
 * 数据卷容器
 
-### 数据卷
+### 8.1、数据卷
 
 数据库是一个或多个容器专门指定绕过`Union File System`的目录，为持续性或共享数据提供一些有用的功能：
 
@@ -673,13 +676,13 @@ docker管理数据的方式有两种：
 * 数据卷数据改变不会被包括在容器中
 * 数据卷是持续性的，直到没有容器使用它们
 
-#### 添加一个数据卷
+#### 8.1.2、添加一个数据卷
 
 你可以使用`-v`选项添加一个数据卷，或者可以使用多次`-v`选项为一个docker容器运行挂载多个数据卷。
 
 ``` bash
 $ sudo docker run --name data -v /data -t -i centos:6.4 /bin/bash
-# 宿主机/data数据卷绑定到到新建容器，新建容器中会创建/data数据卷
+# 创建数据卷绑定到到新建容器，新建容器中会创建/data数据卷
 bash-4.1# ls -ld /data/
 drwxr-xr-x 2 root root 4096 Jul 23 06:59 /data/
 bash-4.1# df -Th
@@ -688,7 +691,7 @@ Filesystem    Type    Size  Used Avail Use% Mounted on
               ext4     91G  4.6G   82G   6% /data
 ```
 
-创建的数据卷可以通过`docker inspect`获取
+创建的数据卷可以通过`docker inspect`获取宿主机对应路径
 
 ``` bash
 $ sudo docker inspect data
@@ -702,7 +705,7 @@ $ sudo docker inspect data
 ... ...
 ```
 
-#### 挂载宿主机目录为一个数据卷
+#### 8.1.3、挂载宿主机目录为一个数据卷
 
 `-v`选项除了可以创建卷，也可以挂载当前主机的一个目录到容器中。
 
@@ -721,5 +724,124 @@ bash-4.1# exit
 ``` bash
 $ sudo docker run --rm --name test -v /source/:/test:ro -t -i centos:6.4 /bin/bash
 ```
+
+### 8.2、创建和挂载一个数据卷容器
+
+如果你有一些持久性的数据并且想在容器间共享，或者想用在非持久性的容器上，最好的方法是创建一个数据卷容器，然后从此容器上挂载数据。
+
+创建数据卷容器
+
+``` bash
+$ sudo docker run -t -i -d -v /test --name test centos:6.4 /bin/bash
+```
+
+使用`--volumes-from`选项在另一个容器中挂载/test卷
+
+``` bash
+$ sudo docker run -t -i -d --volumes-from test --name test1 centos:6.4 /bin/bash
+```
+
+添加另一个容器
+
+``` bash
+$ sudo docker run -t -i -d --volumes-from test --name test2 centos:6.4 /bin/bash
+```
+
+也可以继承其它挂载有/test卷的容器
+
+``` bash
+$ sudo docker run -t -i -d --volumes-from test1 --name test3 centos:6.4 /bin/bash
+```
+
+### 8.3、备份、恢复或迁移数据卷
+
+``` bash
+$ sudo docker run --volumes-from test -v $(pwd):/backup centos:6.4 tar cvf /backup/test.tar /test
+tar: Removing leading `/' from member names
+tar: /test/test.tar: file is the archive; not dumped
+/test/
+/test/b
+/test/d
+/test/c
+/test/a
+```
+
+启动一个新的容器并且从`test`容器中挂载卷。然后我们挂载当前目录`$(pwd)`到容器中为backup，然后备份卷数据为test.tar，即备份数据存放在当前宿主机的所在路径下。
+
+``` bash
+$ ls        # 当前目录下产生了test卷的备份文件test.tar
+test.tar
+```
+
+你可以恢复给同一个容器或者另外的容器，新建容器并解压备份文件到新的容器数据卷：
+
+``` bash
+$ sudo docker run -t -i -d -v /test --name test2 centos:6.4  /bin/bash
+$ sudo docker run --volumes-from test2 -v $(pwd):/backup centos:6.4 tar xvf /backup/test.tar
+# 恢复之前的文件到新建卷中
+test/
+test/b
+test/d
+test/c
+test/a
+```
+
+### 8.4、参考
+
+* [Managing Data in Containers](http://docs.docker.com/userguide/dockervolumes/#data-volumes)
+
+## 九、链接容器
+
+之前介绍过通过端口映射连接容器中对外提供的服务。这是你与运行在容器中的服务和应用进行交互的方式之一。在本节中，会介绍同网络端口方式访问一样好用的方式，即链接容器。docker容器具有一个链接系统允许多个容器连接在一起并且共享连接信息。docker链接将创建一个父子关系，其中父容器可以看到关于它子容器选择的信息。
+
+### 9.1 容器命名
+
+执行docker链接依赖容器的名称，在创建容器时，如果不指定容器的名字，则默认会自动创建一个名字。这种命名提供了两个很有用的功能：
+
+* 1、给容器命名方便记忆，如命名运行web应用的容器为`web`
+* 2、为docker容器提供一个参考，允许方便其他容器调用，如把容器`web`链接到容器`db`
+
+可以通过`--name`选项给容器自定义命名：
+
+``` bash
+$ sudo docker run -d -t -i --name bash centos:6.4 bash
+$ sudo docker ps -l
+CONTAINER ID    IMAGE           COMMAND     CREATED              STATUS             PORTS   NAMES
+70be821b7804    centos:6.4      bash        About a minute ago   Up About a minute          bash                
+```
+
+也可以通过`docker inspect`获取容器名
+
+``` bash
+$ sudo docker inspect -f "{{ .Name }}" 70be821b7804
+/bash
+```
+
+    注：容器名称必须是唯一，意思是你只能命名一个叫`web`的容器。如果你想复用容器名，则必须在创建新的容器前通过`docker rm`删除旧的容器。
+
+### 9.2 链接容器
+
+链接允许容器间安全可见通信，使用`--link`选项创建链接。
+
+``` bash
+$ sudo docker run -d -t -i --name test1 centos:6.4 bash
+```
+
+创建一个容器链接到`test1`容器
+
+``` bash
+$ sudo docker run -d -t -i --name test2 --link test1:test1 centos:6.4 bash
+```
+
+* `--link name:alias` 
+
+``` bash
+$ sudo docker ps
+CONTAINER ID    IMAGE       COMMAND CREATED         STATUS      PORTS   NAMES
+1966fe2a909c    centos:6.4  bash    2 minutes ago   Up 2 minutes        test2
+20f7f53b61df    centos:6.4  bash    4 minutes ago   Up 4 minutes        test1,test2/test1
+```
+
+从上面命令输出可以看出test2链接到test1容器的父/子关系。
 
 
