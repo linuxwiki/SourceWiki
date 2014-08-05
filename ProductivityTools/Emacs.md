@@ -88,6 +88,7 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 + `C-x C-b` : 打开缓冲区列表
 + `C-x b` : 切回最近的 buffer
 + `C-x k` : 关闭当前缓冲区
++ `C-x C-b`, `d`, `x`: 关闭用 d 标记 buffer
 
 ## 2.5 窗口(WINDOWS)操作
 
