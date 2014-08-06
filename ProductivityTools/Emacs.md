@@ -153,6 +153,13 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 
 ## 2.12 版本控制(Version Control)
 
++ `C-x v v` , `M-x vc-next-action` : 提交当前文件
++ `C-x v =` , `M-x vc-diff`
++ `C-x v ~` , `M-x vc-revision-other-window`: 与指定版本做比较
++ `C-x v l` , `M-x vc-print-log` : 查看日志
++ `C-x v u` , `M-x vc-revert` 
++ `C-x v C-h` : 查看所有可用的 vc 命令
+
 # 三、通用定制
 
 默认的 emacs 的快捷键有些不好用，比如 `c-x c-f` 时，没有任何提示。再如窗口切换使用 `c-x o`，当 buffer 多时，非常不方便，这一节介绍 emacs 通用的定制(不针对某种开发/编辑环境)。
