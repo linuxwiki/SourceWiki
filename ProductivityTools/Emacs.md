@@ -137,7 +137,7 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 
 ## 2.10 Occur
 
-把所有的所有结果都列到一个名为 `*Occur*` buffer 中。使用 `M-s o` 调用 `occur` 函数，搜索当前文档。
+把所有的搜索结果都列到一个名为 `*Occur*` buffer 中。使用 `M-s o` 调用 `occur` 函数，搜索当前文档。
 
 + `M-g n` : 下一个匹配项
 + `M-g p` : 上一个匹配项
@@ -245,6 +245,33 @@ Mini Buffer 优化(依赖 smex 插件，ido 是 Emacs 自带的):
 
     (global-set-key (kbd "C-x C-b") 'ibuffer)
 
+`C-a` 跳转到句首，而不是行首:
+
+    (defun prelude-move-beginning-of-line (arg)
+      "Move point back to indentation of beginning of line.
+    
+    Move point to the first non-whitespace character on this line.
+    If point is already there, move to the beginning of the line.
+    Effectively toggle between the first non-whitespace character and
+    the beginning of the line.
+    
+    If ARG is not nil or 1, move forward ARG - 1 lines first. If
+    point reaches the beginning or end of the buffer, stop there."
+      (interactive "^p")
+      (setq arg (or arg 1))
+    
+      ;; Move lines first
+      (when (/= arg 1)
+        (let ((line-move-visual nil))
+          (forward-line (1- arg))))
+    
+      (let ((orig-point (point)))
+        (back-to-indentation)
+        (when (= orig-point (point))
+          (move-beginning-of-line 1))))
+    
+    (global-set-key (kbd "C-a") 'prelude-move-beginning-of-line)
+
 Tip:  `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便。
 
 # 四、高级定制
@@ -260,9 +287,9 @@ Tip:  `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便�
       global-fci-mode fci-mode (lambda () (fci-mode 1)))
     (global-fci-mode 1)
 
-## 4.2 代码自动补全: [auto-complete](https://github.com/auto-complete/auto-complete)
+## 4.2 自动补全:
 
-对于用管IDE的朋友,我要解释一下,这里的自动补全不是类成员提示, =_=!
+### 4.2.1 [auto-complete](https://github.com/auto-complete/auto-complete)
 
     (require 'popup)
     (require 'auto-complete-config)
@@ -278,7 +305,9 @@ Tip:  `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便�
     (define-key ac-menu-map "\C-p" 'ac-previous)
     (global-set-key "\M-/" 'auto-complete)
 
-auto-complete 和 [yasnippet](https://github.com/capitaomorte/yasnippet) 是一对好基友，yasnippet 支持很多语言的语法补全，感兴趣可以尝试一下(我不太喜欢用，感觉会影响加载速度)。
+### 4.2.2 [Company mode](http://www.emacswiki.org/CompanyMode)
+
+### 4.2.3 [yasnippet](https://github.com/capitaomorte/yasnippet)
 
 ## 4.3 相同符号高亮: [highlight-symbol](https://github.com/nschum/highlight-symbol.el)
 
@@ -383,7 +412,7 @@ auto-complete 和 [yasnippet](https://github.com/capitaomorte/yasnippet) 是一�
 + cscope -r : 在根目录下递归生成数据库
 + C-c s a : Set initial directory;
 + C-c s A : Unset initial directory;
-+ C-c c I : create list of files to index;
++ C-c s I : create list of files to index;
 + C-c s s : Find symbol;
 + C-c s d : Find global definition;
 + C-c s c : Find functions calling a function;
@@ -421,30 +450,101 @@ etags 使用:
 
 `C-c t` 打开翻译，我指定了英->中，中->英两种翻译模式。
 
-## 4.9 Emacs主题
+## 4.9 Expand region
 
-把 主题 放到最后，是想告诉大家，使用 Emacs(或者其它任何工具) 时，不要花时间在这些炫酷的东西上面，还是要聚焦于实用和高效。Emacs24自带了几款主题(Emacs23没有的哦)，使用 `M-x customize-theme` 回车可查看配色效果。确定喜欢的一款注意后在配置文件中添加一行代码就可以啦。
+Github: [expand-region.el](https://github.com/magnars/expand-region.el)
 
-我一般使用 wombat ，即 `(load-theme 'wombat)`。
+    (require 'expand-region)
+    (global-set-key (kbd "M-m") 'er/expand-region)
+
+
+## 4.10 Helm ()
+
+github: [https://github.com/emacs-helm/helm](https://github.com/emacs-helm/helm)
+
+**极力推荐** 这个插件，对于 Emacs 的基本使用是一个质的提升。安装了 helm 你会发现 ido, smex 神马的简直弱爆了。
+
+推荐阅读: [helm-intro](http://tuhdo.github.io/helm-intro.html) 
+
+    (add-to-list 'load-path "~/.emacs.d/lisp/helm")
+    (require 'helm)
+    
+    (setq helm-command-prefix-key "C-c h")
+    
+    (require 'helm-config)
+    (require 'helm-eshell)
+    (require 'helm-files)
+    (require 'helm-grep)
+    
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
+    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+    (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+    
+    (define-key helm-grep-mode-map (kbd "<return>")  'helm-grep-mode-jump-other-window)
+    (define-key helm-grep-mode-map (kbd "n")  'helm-grep-mode-jump-other-window-forward)
+    (define-key helm-grep-mode-map (kbd "p")  'helm-grep-mode-jump-other-window-backward)
+    
+    (setq
+     helm-google-suggest-use-curl-p t
+     helm-scroll-amount 4 ; scroll 4 lines other window using M-<next>/M-<prior>
+     helm-quick-update t ; do not display invisible candidates
+     helm-idle-delay 0.01 ; be idle for this many seconds, before updating in delayed sources.
+     helm-input-idle-delay 0.01 ; be idle for this many seconds, before updating candidate buffer
+     helm-ff-search-library-in-sexp t ; search for library in `require' and `declare-function' sexp.
+    
+     helm-split-window-default-side 'other ;; open helm buffer in another window
+     helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
+     helm-buffers-favorite-modes (append helm-buffers-favorite-modes
+                                         '(picture-mode artist-mode))
+     helm-candidate-number-limit 200 ; limit the number of displayed canidates
+     helm-M-x-requires-pattern 0     ; show all candidates when set to 0
+     helm-boring-file-regexp-list
+     '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "\\.i$") ; do not show these files in helm buffer
+     helm-ff-file-name-history-use-recentf t
+     helm-move-to-line-cycle-in-source t ; move to end or beginning of source
+                                            ; when reaching top or bottom of source.
+     ido-use-virtual-buffers t      ; Needed in helm-buffers-list
+     helm-buffers-fuzzy-matching t          ; fuzzy matching buffer names when non--nil
+                                            ; useful in helm-mini that lists buffers
+     )
+    
+    ;; Save current position to mark ring when jumping to a different place
+    (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
+    (helm-mode 1)
+    
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    (global-set-key (kbd "C-x b") 'helm-mini)
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)
+    (global-set-key (kbd "C-c h o") 'helm-occur)
+    (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+    
+    (require 'helm-eshell)
+    (add-hook 'eshell-mode-hook
+              #'(lambda ()
+                  (define-key eshell-mode-map (kbd "M-l")  'helm-eshell-history)))
+    
+    ;; C-c h / helm-find
+    ;; C-c h m man or woman
+
+## 4.last Emacs主题
+
+把 主题 放到最后，是想告诉大家，使用 Emacs(或者其它任何工具) 时，不要花时间在这些炫酷的东西上面，还是要聚焦于实用和高效。Emacs24自带了几款主题(Emacs23没有的哦)，使用 `M-x customize-theme` 回车可查看配色效果。
+
+也可以在学习资源中的 Emacs Theme 中找一款自己喜欢的。
 
 # 五、学习资源 
 
-## 5.1 视频
+一些学习资源推荐，也是本文档的参考资料。
 
-+ [Emacs as a C/C++ Editor/IDE (Part 3): cedet mode for true intellisense](http://www.youtube.com/watch?v=Ib914gNr0ys&feature=share)
-
-## 5.2 网站(博客)
-
-+ [MELPA](http://melpa.milkbox.net/) : N多插件等你选，同时也可以感受一下 Emacs 的强大。
-+ [GNU Emacs Manuals Online](http://www.gnu.org/software/emacs/manual/)
++ [Emacs Mini Mannual](http://tuhdo.github.io/index.html) : Emacs Mini 手册
++ [Emacs Themes](http://emacsthemes.caisah.info/) : 主题集合
++ [MELPA](http://melpa.milkbox.net/) : 插件集合，同时也可以感受一下 Emacs 的强大
++ [GNU Emacs Manuals Online](http://www.gnu.org/software/emacs/manual/) : Emacs 官方手册
 + [Emacs Redux](http://emacsredux.com/)
 + [Emacs Markdown Mode](http://jblevins.org/projects/markdown-mode/)
-
-## 5.3 参考/扩展资料
 + [一年成为Emacs高手(像神一样使用编辑器)](https://github.com/redguardtoo/mastering-emacs-in-one-year-guide/blob/master/guide-zh.org)
 + [Emacs as a Python IDE](http://www.jesshamrick.com/2012/09/18/emacs-as-a-python-ide/)
 + [Emacs快速参考](http://jianlee.ylinux.org/Computer/Emacs/emacsBFE99F8FE883.html)
 + [Case Conversion Commands](http://www.gnu.org/software/emacs/manual/html_node/emacs/Case.html)
-+ [Rectangles](http://www.gnu.org/software/emacs/manual/html_node/emacs/Rectangles.html)
 + [曹乐: 在Emacs下用C/C++编程](http://www.caole.net/diary/emacs_write_cpp.html)
 
