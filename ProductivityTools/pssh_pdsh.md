@@ -1,10 +1,10 @@
 # pssh && pdsh
 
-## pssh
+## 一、pssh
 
 pssh是一个python编写可以在多台服务器上执行命令的工具，同时支持拷贝文件，是同类工具中很出色的，类似pdsh 。为方便操作，使用前请在各个服务器上配置好密钥认证访问。项目地址: [parallel-ssh](https://code.google.com/p/parallel-ssh/)
 
-### 安装
+### 1.1、安装
 
 ``` bash
 wget http://parallel-ssh.googlecode.com/files/pssh-2.3.1.tar.gz
@@ -13,7 +13,7 @@ cd pssh-2.3.1/
 python setup.py install
 ```
 
-### pssh相关参数
+### 1.2、pssh相关参数
 
 * pssh在多个主机上并行地运行命令
    * -h 执行命令的远程主机列表,文件内容格式[user@]host[:port]
@@ -31,7 +31,7 @@ python setup.py install
    * -X 同-x,但是只能设置一个参数
    * -i 显示标准输出和标准错误在每台host执行完毕后
 
-### 附加工具
+### 1.3、附加工具
 
 *	pscp 传输文件到多个hosts，类似scp
 	* pscp -h hosts.txt -l irb2 foo.txt /home/irb2/foo.txt
@@ -41,7 +41,7 @@ python setup.py install
 *	prsync 使用rsync协议从本地计算机同步到远程主机
 	* prsync -r -h hosts.txt -l irb2 foo /home/irb2/foo
 
-### 使用实例
+### 1.4、使用实例
 
 写入主机到文件中，语法为`用户名@主机ip`
 
@@ -85,17 +85,17 @@ Mon Aug 12 17:22:58 CST 2013
 Stderr: Connection to 10.0.0.8 closed.
 ```
 
-### 参考文档
+### 1.5、参考文档
 
 * [pssh](http://linux.die.net/man/1/pssh) 
 * [pssh-howto](http://www.theether.org/pssh/docs/0.2.3/pssh-HOWTO.html)
 
-## pdsh 
+## 二、pdsh 
 
 pdsh(Parallel Distributed SHell)可并行的执行对目标主机的操作，对于批量执行命令和分发任务有很大的帮助，在使用前需要配置ssh无密码登录，[点击下载](http://sourceforge.net/projects/pdsh/)
 
 
-### pdsh基本用法
+### 2.1、pdsh基本用法
 
 ``` bash
  pdsh -h
@@ -121,16 +121,16 @@ Usage: pdsh [-options] command ...
 available rcmd modules: exec,xcpu,ssh (default: ssh)        可用的执行命令模块，默认为ssh
 ```
 
-### 使用实例
+### 2.2、使用实例
 
-#### 单个主机测试
+#### 2.2.1、单个主机测试
 
 ``` bash
 $ pdsh -w 192.168.0.231 -l root uptime
 192.168.0.231:  16:16:11 up 32 days, 22:14, ? users,  load average: 0.10, 0.14, 0.16
 ```
 
-#### 多个主机测试
+#### 2.2.2、多个主机测试
 
 ``` bash
 $ pdsh -w 192.168.0.[231-233] -l root uptime
@@ -139,7 +139,7 @@ $ pdsh -w 192.168.0.[231-233] -l root uptime
 192.168.0.231:  16:17:06 up 32 days, 22:15, ? users,  load average: 0.09, 0.13, 0.15
 ```
 
-#### 逗号分隔主机
+#### 2.2.3、逗号分隔主机
 
 ``` bash
 $ pdsh -w 192.168.0.231,192.168.0.234 -l root uptime
@@ -147,7 +147,7 @@ $ pdsh -w 192.168.0.231,192.168.0.234 -l root uptime
 192.168.0.231:  16:19:44 up 32 days, 22:17, ? users,  load average: 0.29, 0.18, 0.16
 ```
 
-#### `-x`排除某个主机
+#### 2.2.4、`-x`排除某个主机
 
 ``` bash
 $ pdsh -w 192.168.0.[231-233] -x 192.168.0.232 -l root uptime
@@ -155,7 +155,7 @@ $ pdsh -w 192.168.0.[231-233] -x 192.168.0.232 -l root uptime
 192.168.0.231:  16:18:25 up 32 days, 22:16, ? users,  load average: 0.11, 0.13, 0.15
 ```
 
-#### 主机组
+#### 2.2.5、主机组
   
 对于-g组，把对应的主机写入到`/etc/dsh/group/`或`~/.dsh/group/`目录下的文件中即可，文件名就是对应组名
 
@@ -175,7 +175,7 @@ $ pdsh -g dsh-test -l root uptime
 192.168.0.233:  16:21:40 up 32 days, 22:22, ? users,  load average: 0.15, 0.15, 0.10
 ```
 
-#### `dshbak`格式化输出
+#### 2.2.6、`dshbak`格式化输出
 
 pdsh的缺省输出格式为主机名加该主机的输出，在主机或输出多时会比较混乱，可以采用`dshbak`做一些格式化，让输出更清晰。
 
@@ -201,6 +201,6 @@ Wed Jun 19 16:24:18 CST 2013
 Wed Jun 19 16:24:19 CST 2013
 ```
 
-### 参考文档
+### 2.3、参考文档
 
 * [Using PDSH](https://code.google.com/p/pdsh/wiki/UsingPDSH)

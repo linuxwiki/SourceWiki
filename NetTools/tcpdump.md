@@ -2,9 +2,9 @@
 
 一般情况下，非HTTP协议的网络分析，在服务器端用`tcpdump`比较多，在客户端用wireshark比较多，两个抓包软件的语法是一样的。
 
-## 基本语法
+## 一、基本语法
 
-### 过滤主机
+### 1.1、过滤主机
 
 - 抓取所有经过eth1，目的或源地址是192.168.1.1的网络数据
 
@@ -24,7 +24,7 @@ tcpdump -i eth1 src host 192.168.1.1
 tcpdump -i eth1 dst host 192.168.1.1
 ```
 
-### 过滤端口
+### 1.2、过滤端口
 
 - 抓取所有经过eth1，目的或源端口是25的网络数据
 
@@ -44,7 +44,7 @@ tcpdump -i eth1 src port 25
 tcpdump -i eth1 dst port 25
 ```
 
-### 网络过滤
+### 1.3、网络过滤
 
 ```bash
 tcpdump -i eth1 net 192.168
@@ -52,7 +52,7 @@ tcpdump -i eth1 src net 192.168
 tcpdump -i eth1 dst net 192.168
 ```
 
-### 协议过滤
+### 1.4、协议过滤
 
 ```bash
 tcpdump -i eth1 arp
@@ -62,7 +62,7 @@ tcpdump -i eth1 udp
 tcpdump -i eth1 icmp
 ```
 
-### 常用表达式
+### 1.5、常用表达式
 
     非 : ! or "not" (去掉双引号)  
     且 : && or "and"  
@@ -86,7 +86,7 @@ tcpdump -i eth1 '((icmp) and ((ether dst host 00:01:02:03:04:05)))'
 tcpdump -i eth1 '((tcp) and ((dst net 192.168) and (not dst host 192.168.1.200)))'
 ```
 
-## 高级包头过滤
+## 二、高级包头过滤
 
 首先了解如何从包头过滤信息
 
@@ -100,7 +100,7 @@ proto[x:y] = z      : proto[x:y]等于z
 
 操作符 : >, <, >=, <=, =, !=
 
-### IP头
+### 2.1、IP头
 
 ```
  0                   1                   2                   3
@@ -124,7 +124,7 @@ proto[x:y] = z      : proto[x:y]等于z
 
 本文只针对IPv4。
 
-### IP选项设置了吗？
+### 2.2、IP选项设置了吗？
 
 “一般”的IP头是20字节，但IP头有选项设置，不能直接从偏移21字节处读取数据。IP头有个长度字段可以知道头长度是否大于20字节。
 
@@ -186,7 +186,7 @@ tcpdump -i eth1 'ip[0] & 15 > 5'
 tcpdump -i eth1 'ip[0] & 0x0f > 5'
 ```
 
-### 分片标记
+### 2.3、分片标记
 
 当发送端的MTU大于到目的路径链路上的MTU时就会被分片，这段话有点拗口，权威的请参考《TCP/IP详解》。唉，32借我的书没还，只能凑合写，大家记得看书啊。
 
@@ -212,7 +212,7 @@ Fragment Offset字段只有在分片的时候才使用。
 tcpdump -i eth1 'ip[6] = 64'
 ```
 
-### 抓分片包
+### 2.4、抓分片包
 
 - 匹配MF，分片包
 
@@ -234,7 +234,7 @@ tcpdump -i eth1 '((ip[6:2] > 0) and (not ip[6] = 64))'
 ping -M want -s 3000 192.168.1.1
 ```
 
-### 匹配小TTL
+### 2.5、匹配小TTL
 
 TTL字段在第九字节，并且正好是完整的一个字节，TTL最大值是255，二进制为11111111。
 
@@ -257,7 +257,7 @@ ping: ttl 256 out of range
 tcpdump -i eth1 'ip[8] < 5'
 ```
 
-### 抓大于X字节的包
+### 2.6、抓大于X字节的包
 
 - 大于600字节
 
@@ -265,7 +265,7 @@ tcpdump -i eth1 'ip[8] < 5'
 tcpdump -i eth1 'ip[2:2] > 600'
 ```
 
-### 更多的IP过滤
+### 2.7、更多的IP过滤
 
 首先还是需要知道TCP基本结构，再次推荐《TCP/IP详解》，卷一就够看的了，避免走火入魔。
 
@@ -369,7 +369,7 @@ tcpdump -i eth1 'tcp[13] & 4 = 4'
 ![tcp_state_machine.jpg](../images/tcp_state_machine.jpg)
 
 
-### 大叔注
+### 2.8、大叔注
 
 tcpdump考虑了一些数字恐惧症者的需求，提供了部分常用的字段偏移名字：
 
@@ -399,7 +399,7 @@ tcpdump -i eth1 'tcp[tcpflags] = tcp-syn'
 tcpdump -i eth1 'tcp[tcpflags] & tcp-syn != 0 and tcp[tcpflags] & tcp-ack != 0'
 ```
 
-### 抓SMTP数据
+### 2.9、抓SMTP数据
 
 ```bash
 tcpdump -i eth1 '((port 25) and (tcp[(tcp[12]>>2):4] = 0x4d41494c))'
@@ -407,7 +407,7 @@ tcpdump -i eth1 '((port 25) and (tcp[(tcp[12]>>2):4] = 0x4d41494c))'
 
 抓取数据区开始为"MAIL"的包，"MAIL"的十六进制为0x4d41494c。
 
-### 抓HTTP GET数据
+### 2.10、抓HTTP GET数据
 
 ```bash
 tcpdump -i eth1 'tcp[(tcp[12]>>2):4] = 0x47455420'
@@ -415,7 +415,7 @@ tcpdump -i eth1 'tcp[(tcp[12]>>2):4] = 0x47455420'
 
 "GET "的十六进制是47455420
 
-### 抓SSH返回
+### 2.11、抓SSH返回
 
 ```bash
 tcpdump -i eth1 'tcp[(tcp[12]>>2):4] = 0x5353482D'
@@ -429,7 +429,7 @@ tcpdump -i eth1 '(tcp[(tcp[12]>>2):4] = 0x5353482D) and (tcp[((tcp[12]>>2)+4):2]
 
 抓老版本的SSH返回信息，如"SSH-1.99.."
 
-## 大叔注
+## 三、大叔注
 
 如果是为了查看数据内容，建议用`tcpdump -s 0 -w filename`把数据包都保存下来，然后用wireshark的Follow TCP Stream/Follow UDP Stream来查看整个会话的内容。
 
@@ -437,7 +437,7 @@ tcpdump -i eth1 '(tcp[(tcp[12]>>2):4] = 0x5353482D) and (tcp[((tcp[12]>>2)+4):2]
 
 另外，用tcpflow也可以方便的获取TCP会话内容，支持tcpdump的各种表达式。
 
-### UDP头
+### 3.1、UDP头
 ```
   0      7 8     15 16    23 24    31
  +--------+--------+--------+--------+
@@ -458,7 +458,7 @@ tcpdump -i eth1 '(tcp[(tcp[12]>>2):4] = 0x5353482D) and (tcp[((tcp[12]>>2)+4):2]
 tcpdump -i eth1 udp dst port 53
 ```
 
-### 其他
+### 3.2、其他
 
 `-c`参数对于运维人员来说也比较常用，因为流量比较大的服务器，靠人工CTRL+C还是抓的太多，甚至导致服务器宕机，于是可以用`-c`参数指定抓多少个包。
 
@@ -468,6 +468,6 @@ time tcpdump -nn -i eth0 'tcp[tcpflags] = tcp-syn' -c 10000 > /dev/null
 
 上面的命令计算抓10000个SYN包花费多少时间，可以判断访问量大概是多少。
 
-## 参考资料
+## 四、参考资料
 
 > [tcpdump advanced filters](http://www.wains.be/pub/networking/tcpdump_advanced_filters.txt)
