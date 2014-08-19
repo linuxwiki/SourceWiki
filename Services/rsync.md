@@ -1,6 +1,6 @@
 # rsync
 
-## rsync基本介绍
+## 一、rsync基本介绍
 
 `rsync`是类unix系统下的数据镜像备份工具，从软件的命名上就可以看出来了——remote sync。它的特性如下：
 
@@ -16,7 +16,7 @@
 
 无论本地同步目录还是远程同步数据，首次运行时将会把全部文件拷贝一次，以后再运行时将只拷贝有变化的文件（对于新文件）或文件的变化部分（对于原有文件）。
 
-## rsync选项
+## 二、rsync选项
 
 ``` bash
 Usage: rsync [OPTION]... SRC [SRC]... DEST
@@ -26,7 +26,16 @@ Usage: rsync [OPTION]... SRC [SRC]... DEST
   or   rsync [OPTION]... [USER@]HOST:SRC [DEST]
   or   rsync [OPTION]... [USER@]HOST::SRC [DEST]
   or   rsync [OPTION]... rsync://[USER@]HOST[:PORT]/SRC [DEST]
+The ':' usages connect via remote shell, while '::' & 'rsync://' usages connect
+to an rsync daemon, and require SRC or DEST to start with a module name.
 ```
+
+__注:__在指定复制源时，路径是否有最后的 “/” 有不同的含义，例如：
+
+* /data ：表示将整个 /data 目录复制到目标目录
+* /data/ ：表示将 /data/ 目录中的所有内容复制到目标目录
+
+### 2.1、常用选项
 
 * `-v` : Verbose (try -vv for more detailed information)            # 详细模式显示
 * `-e` "ssh options" : specify the ssh as remote shell              # 指定ssh作为远程shell
@@ -46,13 +55,64 @@ Usage: rsync [OPTION]... SRC [SRC]... DEST
 * `-n` : 只测试输出而不正真执行命令，推荐使用，特别防止`--delete`误删除！
 * `--stats` : 输出文件传输的状态
 * `--progress` : 输出文件传输的进度
-* `--exclude-from` : 排除文件或目录
+* `––exclude=PATTERN` : 指定排除一个不需要传输的文件匹配模式
+* `––exclude-from=FILE` : 从 FILE 中读取排除规则
+* `––include=PATTERN` : 指定需要传输的文件匹配模式
+* `––include-from=FILE` : 从 FILE 中读取包含规则
 * `--numeric-ids` : 不映射uid/gid到user/group的名字
+* `-S, --sparse` : 对稀疏文件进行特殊处理以节省DST的空间
 * `--delete` : 删除DST中SRC没有的文件，也就是所谓的镜像[mirror]备份
 
-## 远程 Shell 方式
+## 三、远程 Shell 方式
+
+``` bash
+rsync [OPTION]... SRC [SRC]... [USER@]HOST:DEST # 执行“推”操作
+or   rsync [OPTION]... [USER@]HOST:SRC [DEST]   # 执行“拉”操作
+```
+
+## 四、rsync C/S 方式
+
+``` bash
+rsync [OPTION]... SRC [SRC]... [USER@]HOST::DEST                    # 执行“推”操作
+or   rsync [OPTION]... SRC [SRC]... rsync://[USER@]HOST[:PORT]/DEST # 执行“推”操作
+or   rsync [OPTION]... [USER@]HOST::SRC [DEST]                      # 执行“拉”操作
+or   rsync [OPTION]... rsync://[USER@]HOST[:PORT]/SRC [DEST]        # 执行“拉”操作
+```
+
+C/S 方式需要配置服务端，下面是一个配置文件示例：
+
+``` bash
+# /etc/rsyncd.conf
+
+uid = root
+gid = root
+use chroot = yes
+
+[bak-data]
+    path = /data/
+    comment = data backup
+    numeric ids = yes
+    read only = yes
+    list = no
+    auth users = data
+    exclude = .svn
+    filter = merge /etc/.data-filter  # 
+    secrets file = /etc/rsync-secret
+    hosts allow = 192.168.80.0/24 172.16.0.10
+    
+[bak-data]
+    path = /data/
+    comment = data backup
+    numeric ids = yes
+    read only = yes
+    list = no
+    auth users = data
+    exclude = .svn
+    filter = merge /etc/.data-filter  # 
+    secrets file = /etc/rsync-secret
+    hosts allow = 192.168.80.0/24 172.16.0.10
+```
 
 
-## rsync C/S 方式
 
 --EOF--

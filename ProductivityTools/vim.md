@@ -1,4 +1,6 @@
-# vim By [tankywoo](https://github.com/tankywoo)
+# vim
+
+* 作者: [tankywoo](https://github.com/tankywoo)
 
 [.vimrc](https://github.com/tankywoo/linux-autoconfig/blob/master/.vimrc)
 
