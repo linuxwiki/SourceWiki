@@ -1,8 +1,8 @@
 # vim
 
-* 作者: [tankywoo](https://github.com/tankywoo)
-
-[.vimrc](https://github.com/tankywoo/linux-autoconfig/blob/master/.vimrc)
++ 作者: [tankywoo](https://github.com/tankywoo)
++ 原文链接: [http://wiki.tankywoo.com/tool/vim.html](http://wiki.tankywoo.com/tool/vim.html)
++ 配置文件: [.vimrc](https://github.com/tankywoo/dotfiles/blob/master/.vimrc)
 
 
 ## 一、快捷键 ##
