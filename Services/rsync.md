@@ -29,8 +29,8 @@ Usage: rsync [OPTION]... SRC [SRC]... DEST
 The ':' usages connect via remote shell, while '::' & 'rsync://' usages connect
 to an rsync daemon, and require SRC or DEST to start with a module name.
 ```
-
-__注:__在指定复制源时，路径是否有最后的 “/” 有不同的含义，例如：
+  
+__注:__ 在指定复制源时，路径是否有最后的 “/” 有不同的含义，例如：
 
 * /data ：表示将整个 /data 目录复制到目标目录
 * /data/ ：表示将 /data/ 目录中的所有内容复制到目标目录
@@ -127,7 +127,7 @@ test:654321
 
 关于filter的匹配规则可以参考[man手册](http://www.samba.org/ftp/rsync/rsyncd.conf.html)：
 
-  filter
+      filter
       The daemon has its own filter chain that determines what files it will let the client access. This chain is not sent to the client and is independent of any filters the client may have specified. Files excluded by the daemon filter chain (daemon-excluded files) are treated as non-existent if the client tries to pull them, are skipped with an error message if the client tries to push them (triggering exit code 23), and are never deleted from the module. You can use daemon filters to prevent clients from downloading or tampering with private administrative files, such as files you may add to support uid/gid name translations.
 
       The daemon filter chain is built from the "filter", "include from", "include", "exclude from", and "exclude" parameters, in that order of priority. Anchored patterns are anchored at the root of the module. To prevent access to an entire subtree, for example, "/secret", you must exclude everything in the subtree; the easiest way to do this is with a triple-star pattern like "/secret/***".
@@ -141,8 +141,8 @@ test:654321
 ``` bash
 RSYNC_PASSWORD=123321 rsync -havAEHXi -n --numeric-ids --delete --stats --progress [SRC] [DEST]
 ```
-
-__注：__如果有稀疏文件，则添加 `-S` 选项可以提升传输性能。
+  
+__注：__ 如果有稀疏文件，则添加 `-S` 选项可以提升传输性能。
 
 ### 5.2、ssh端口非默认22同步
 
