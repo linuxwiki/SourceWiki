@@ -1,4 +1,4 @@
-# DNS 查询工具 -- dig/host/nslookup
+# DNS 查询工具 -- dig|host|nslookup
 
 `nslookup`、`host`和`dig` 是三个DNS查询工具，以下会分别介绍它们的使用方法。
 
