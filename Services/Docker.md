@@ -1,6 +1,6 @@
 # 轻量级虚拟化Docker
 
-## 一、Docker基本介绍
+## 一、Docker 基本介绍
 
 Docker发端于一个名为dotcloud的开源项目；随着编写者不断挖掘它的潜力，它迅速变成了一个炙手可热的项目。它由GO语言编写的，并且只支持Linux。它基于Linux容器（LxC）来创建一个虚拟环境。Docker不会通过建立独有的操作系统、进程和对硬件进行模拟来创建属于自己的虚拟机。请注意：虚拟环境VE(Virtual Environment)和虚拟机（VM）很不一样。虚拟机是由虚拟工具或者模拟器（HyperV 、VMWare等）创建的，是一个全镜像的主机源，其中包括操作系统、硬盘调整、网络和虚拟进程。过于臃肿的结构吃掉了大量的硬盘空间同时拖慢了运行和开机速度。
  
@@ -13,7 +13,7 @@ Docker发端于一个名为dotcloud的开源项目；随着编写者不断挖掘
  
 > LxC是一个Linux提供的收容功能接口，通过LxC提供的API和简单的工具，使得Linux用户可以简单的创建和管理系统或者应用的空间。[LXC容器](http://www.ibm.com/developerworks/cn/linux/l-lxc-containers/)
  
-Docker通常用于如下场景：
+Docker 通常用于如下场景：
  
     web应用的自动化打包和发布；
     自动化测试和持续集成、发布；

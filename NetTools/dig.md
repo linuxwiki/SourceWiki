@@ -1,6 +1,6 @@
 # DNS 查询工具 -- dig|host|nslookup
 
-`nslookup`、`host`和`dig` 是三个DNS查询工具，以下会分别介绍它们的使用方法。
+`nslookup`、`host` 和 `dig` 是三个 DNS 查询工具，以下会分别介绍它们的使用方法。
 
 ## 一、nslookup
 
@@ -10,16 +10,16 @@
 
 ## 二、host
 
-`host`命令和`dig`命令很相像，但是`host`命令的输出要更简洁，如下示例
+`host` 命令和 `dig` 命令很相像，但是 `host` 命令的输出要更简洁，如下示例
 
-``` bash
+```
 # host www.google.com
 www.google.com has address 74.125.135.106
 ```
 
-`host`命令只输出给我们`dig`命令的ANSWER section，相对`dig`提供的一些不必要的信息来说更简洁快速。也可指定DNS Server来查询，例如我想使用Google DNS`8.8.8.8`,named可以如下指定
+`host` 命令只输出给我们 `dig` 命令的 ANSWER section，相对 `dig` 提供的一些不必要的信息来说更简洁快速。也可指定 DNS Server 来查询，例如我想使用 Google DNS `8.8.8.8`,named 可以如下指定
 
-``` bash
+```
 # host www.google.com 8.8.8.8
 Using domain server:
 Name: 8.8.8.8
@@ -29,21 +29,21 @@ Aliases:
 www.google.com has address 173.194.72.147
 ```
 
-`host`当然也支持反解析
+### `host` 反解析
 
-``` bash
+```
 # host 173.194.72.147
 147.72.194.173.in-addr.arpa domain name pointer tf-in-f147.1e100.net.
 ```
 
-指定查询类型可以使用`-t`选项
+### 指定查询类型，使用 `-t` 选项
 
-``` bash
-# host -t SOA google.com  #查询SOA记录信息
+```
+# host -t SOA google.com  # 查询 SOA 记录信息
 google.com has SOA record ns1.google.com. dns-admin.google.com. 2013061100 7200 1800 1209600 300
 ```
 
-查询`MX`记录
+### 查询 `MX` 记录
 
 ```
 $ host -t MX google.com 
@@ -54,7 +54,7 @@ google.com mail is handled by 50 alt4.aspmx.l.google.com.
 google.com mail is handled by 30 alt2.aspmx.l.google.com.
 ```
 
-`-C`对比认证DNS SOA信息
+### `-C` 对比认证 DNS SOA 信息
 
 ```
 # host -C google.com
@@ -66,21 +66,21 @@ Nameserver 216.239.32.10:
 ... ...
 ```
 
-查询DNS Server软件版本信息,10.10.10.2为DNS Server
+### 查询 DNS Server 软件版本信息
 
-``` bash
+```
 # host -c CH -t txt version.bind 10.10.10.2  
 Using domain server:
-Name: 10.10.10.2
+Name: 10.10.10.2   # 10.10.10.2 为 DNS Server
 Address: 10.10.10.2#53
 Aliases: 
 
 version.bind descriptive text "9.8.1-P2"
 ```
 
-__host帮助__
+### host help
 
-``` bash
+```
 # host
 Usage: host [-aCdlriTwv] [-c class] [-N ndots] [-t type] [-W time]
             [-R number] [-m flag] hostname [server]
@@ -106,9 +106,9 @@ Usage: host [-aCdlriTwv] [-c class] [-N ndots] [-t type] [-W time]
 
 ## 三、dig
 
-dig也是一个很强大的命令，相对host来说输出较为繁杂，如下：
+`dig` 也是一个很强大的命令，相对host来说输出较为繁杂，如下：
 
-``` bash
+```
 $ dig www.google.com
 ... ...
 
@@ -126,9 +126,9 @@ google.com.             172796  IN      NS      ns2.google.com.
 ... ...
 ```
 
-查询`MX`记录
+### 查询 `MX` 记录
 
-``` bash
+```
 $ dig google.com MX | grep '^;; ANSWER SECTION:' -A 5
 ;; ANSWER SECTION:
 google.com.             368     IN      MX      50 alt4.aspmx.l.google.com.
@@ -138,17 +138,17 @@ google.com.             368     IN      MX      30 alt2.aspmx.l.google.com.
 google.com.             368     IN      MX      20 alt1.aspmx.l.google.com.
 ```
 
-查询`SOA`记录
+### 查询 `SOA` 记录
 
-``` bash
+```
 $ dig google.com SOA | grep '^;; ANSWER SECTION:' -A 1
 ;; ANSWER SECTION:
 google.com.             85539   IN      SOA     ns1.google.com. dns-admin.google.com. 2013061100 7200 1800 1209600 300
 ```
 
-指定DNS Server查询
+### 指定 DNS Server 查询
 
-``` bash
+```
 $ dig www.baidu.com @8.8.8.8
 ... ...
 ;; ANSWER SECTION:
@@ -158,21 +158,27 @@ www.a.shifen.com.       166     IN      A       119.75.218.77
 ... ...
 ```
 
-`dig`查询版本号
+### `dig` 查询版本号
 
-``` bash
+```
 $ dig chaos txt version.bind  10.10.10.2 | grep '^;; ANSWER SECTION:' -A 1
 ;; ANSWER SECTION:
 version.bind.           0       CH      TXT     "9.8.1-P2"
 ```
 
-`dig`反解析`-x`
+### `dig` 反解析 `-x`
 
-``` bash
+```
 $ dig -x 74.125.135.105
 ;; QUESTION SECTION:
 ;105.135.125.74.in-addr.arpa.   IN      PTR
 
 ;; ANSWER SECTION:
 105.135.125.74.in-addr.arpa. 83205 IN   PTR     ni-in-f105.1e100.net.
+```
+
+### 跟踪 `dig` 全过程 `+trace`
+
+```
+$ dig +trace www.google.com
 ```

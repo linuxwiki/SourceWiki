@@ -1,24 +1,24 @@
 # rsync
 
-## 一、rsync基本介绍
+## 一、rsync 基本介绍
 
-`rsync`是类unix系统下的数据镜像备份工具，从软件的命名上就可以看出来了——remote sync。它的特性如下：
+`rsync` 是类 unix 系统下的数据镜像备份工具，从软件的命名上就可以看出来了—— remote sync。它的特性如下：
 
 
 * 1、可以镜像保存整个目录树和文件系统
 * 2、可以很容易做到保持原来文件的权限、时间、软硬链接等等
 * 3、无须特殊权限即可安装
 * 4、优化的流程，文件传输效率高
-* 5、可以使用rsh、ssh等方式来传输文件，当然也可以通过直接的socket连接
+* 5、可以使用 rsh、ssh 等方式来传输文件，当然也可以通过直接的socket连接
 * 6、支持匿名传输
 
-在使用rsync 进行远程同步时，可以使用两种方式：__远程Shell方式__（用户验证由 ssh 负责）和 __C/S 方式__（即客户连接远程rsync服务器，用户验证由rsync服务器负责）。
+在使用 rsync 进行远程同步时，可以使用两种方式：__远程 Shell 方式__（用户验证由 ssh 负责）和 __C/S 方式__（即客户连接远程 rsync 服务器，用户验证由 rsync 服务器负责）。
 
 无论本地同步目录还是远程同步数据，首次运行时将会把全部文件拷贝一次，以后再运行时将只拷贝有变化的文件（对于新文件）或文件的变化部分（对于原有文件）。
 
-## 二、rsync选项
+## 二、rsync 选项
 
-``` bash
+```
 Usage: rsync [OPTION]... SRC [SRC]... DEST
   or   rsync [OPTION]... SRC [SRC]... [USER@]HOST:DEST
   or   rsync [OPTION]... SRC [SRC]... [USER@]HOST::DEST
@@ -38,8 +38,8 @@ __注:__ 在指定复制源时，路径是否有最后的 “/” 有不同的�
 ### 2.1、常用选项
 
 * `-v` : Verbose (try -vv for more detailed information)            # 详细模式显示
-* `-e` "ssh options" : specify the ssh as remote shell              # 指定ssh作为远程shell
-* `-a` : archive mode   # 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD
+* `-e` "ssh options" : specify the ssh as remote shell              # 指定 ssh 作为远程 shell
+* `-a` : archive mode   # 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于 -rlptgoD
     * `-r`(--recursive) : 目录递归
     * `-l`(--links) ：保留软链接
     * `-p`(--perms) ：保留文件权限
@@ -52,7 +52,7 @@ __注:__ 在指定复制源时，路径是否有最后的 “/” 有不同的�
 * `-H` : 复制硬链接
 * `-X` : 保留扩展属性
 * `-A` : 保留ACL属性
-* `-n` : 只测试输出而不正真执行命令，推荐使用，特别防止`--delete`误删除！
+* `-n` : 只测试输出而不正真执行命令，推荐使用，特别防止 `--delete` 误删除！
 * `--stats` : 输出文件传输的状态
 * `--progress` : 输出文件传输的进度
 * `––exclude=PATTERN` : 指定排除一个不需要传输的文件匹配模式
@@ -61,18 +61,18 @@ __注:__ 在指定复制源时，路径是否有最后的 “/” 有不同的�
 * `––include-from=FILE` : 从 FILE 中读取包含规则
 * `--numeric-ids` : 不映射 uid/gid 到 user/group 的名字
 * `-S, --sparse` : 对稀疏文件进行特殊处理以节省DST的空间
-* `--delete` : 删除DST中SRC没有的文件，也就是所谓的镜像[mirror]备份
+* `--delete` : 删除 DST 中 SRC 没有的文件，也就是所谓的镜像 [mirror] 备份
 
 ## 三、远程 Shell 方式
 
-``` bash
+```
 rsync [OPTION]... SRC [SRC]... [USER@]HOST:DEST # 执行“推”操作
 or   rsync [OPTION]... [USER@]HOST:SRC [DEST]   # 执行“拉”操作
 ```
 
 ## 四、rsync C/S 方式
 
-``` bash
+```
 rsync [OPTION]... SRC [SRC]... [USER@]HOST::DEST                    # 执行“推”操作
 or   rsync [OPTION]... SRC [SRC]... rsync://[USER@]HOST[:PORT]/DEST # 执行“推”操作
 or   rsync [OPTION]... [USER@]HOST::SRC [DEST]                      # 执行“拉”操作
@@ -81,7 +81,7 @@ or   rsync [OPTION]... rsync://[USER@]HOST[:PORT]/SRC [DEST]        # 执行“�
 
 C/S 方式需要配置服务端，下面是一个配置文件示例：
 
-``` bash
+```
 # /etc/rsyncd.conf
 
 uid = root
@@ -113,7 +113,7 @@ use chroot = yes
 
 密码文件和 filter 文件内容如下：
 
-``` bash
+```
 # cat /etc/rsync-secret
 data:123321
 home:123456
@@ -138,23 +138,23 @@ test:654321
 
 ### 5.1、常用命令
 
-``` bash
+```
 RSYNC_PASSWORD=123321 rsync -havAEHXi -n --numeric-ids --delete --stats --progress [SRC] [DEST]
 ```
   
 __注：__ 如果有稀疏文件，则添加 `-S` 选项可以提升传输性能。
 
-### 5.2、ssh端口非默认22同步
+### 5.2、ssh 端口非默认 22 同步
 
-使用ssh方式传输时如果连接服务器ssh端口非标准，则需要通过`-e`选项指定：
+使用 ssh 方式传输时如果连接服务器 ssh 端口非标准，则需要通过 `-e` 选项指定：
 
-``` bash
+```
 RSYNC_PASSWORD=123321 rsync -havAEHXi -n --numeric-ids --delete --stats --progress -e "ssh -p 22222" [USER@]HOST:SRC [DEST]
 ```
 
 ### 5.3、查看服务器同步资源
 
-``` bash
+```
 RSYNC_PASSWORD=123321 rsync --list-only data@192.168.80.150::bak-data
 或
 RSYNC_PASSWORD=123321 rsync --list-only rsync://data@192.168.80.150/bak-data

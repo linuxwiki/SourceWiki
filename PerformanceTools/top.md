@@ -1,8 +1,8 @@
 # top
 
-`top`命令是Linux下常用的性能分析工具，能够实时显示系统中各个进程的资源占用状况，类似于Windows的任务管理器。
+`top` 命令是 Linux 下常用的性能分析工具，能够实时显示系统中各个进程的资源占用状况，类似于 Windows 的任务管理器。
  
-## 一、top理论
+## 一、top 理论
  
 ``` bash
 # top
@@ -16,16 +16,16 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
   ... ...
 ```
  
-统计信息区前五行是系统整体的统计信息。第一行是任务队列信息，同`uptime`命令的执行结果。其内容如下：
+统计信息区前五行是系统整体的统计信息。第一行是任务队列信息，同 `uptime` 命令的执行结果。其内容如下：
  
 |内容              | 解释
 |:---              |:---   
 |10:52:40          | 当前时间          
 |up 3 days, 52 min | 系统运行时间
 |1 users           | 当前登录用户数
-|load average: 57.28, 112.40, 123.60 | 系统负载，即任务队列平均长度。分别为1、5、15min前到现在平均值。
+|load average: 57.28, 112.40, 123.60 | 系统负载，即任务队列平均长度。分别为 1、5、15min 前到现在平均值。
  
-第二、三行为进程和CPU的信息。当有多个CPU时，这些内容可能会超过两行。内容如下：
+第二、三行为进程和 CPU 的信息。当有多个 CPU 时，这些内容可能会超过两行。内容如下：
 
 | 内容                                | 解释
 |:---                                 |:---
@@ -36,7 +36,7 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
 | 0.0%ni, 0.0%id,                     | 用户进程空间内改变进程优先级占用CPU、空闲CPU百分比
 | 65.7%wa, 0.0%hi, 3.4%si, 0.0%st     | 等待IO的CPU时间百分比，最后三个是中断请求相关
  
-倒数第2、3行为内存相关信息：
+倒数第 2、3 行为内存相关信息：
 
 |内容                                  | 解释
 |:---                                  |:---
@@ -61,7 +61,7 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
  
 >In addition to cache memory, RAM itself is a cache memory for hard disk storage since all of RAM's contents come up to the hard disk initially when you turn on your computer and load the operating system that you are loading it into RAM and later when you start new applications and access new data. RAM also contains a special area called a disk cache that consists of the data most recently read in from the hard disk.
  
-最后1行则是进程相关的资源占用信息:
+最后 1 行则是进程相关的资源占用信息:
  
 - `PID`：进程的ID
 - `USER`：进程所有者
@@ -76,28 +76,28 @@ Swap:  1044476k total,   713552k used,   330924k free, 10052032k cached
 - `TIME+`：该进程启动后占用的总的CPU时间，即占用CPU使用时间的累加值。
 - `COMMAND`：进程启动命令名称
  
-## 二、top技巧
+## 二、top 技巧
  
-终端执行top命令之后【也可后接一些选项，比如`top -p 1`只监控init进程，`top -u root`只显示root运行进程等等】，可以敲击如下按键，实现不同功能：
+终端执行 `top` 命令之后【也可后接一些选项，比如 `top -p 1` 只监控init进程，`top -u root` 只显示 root 运行进程等等】，可以敲击如下按键，实现不同功能：
  
-- `h`：获取top的命令帮助
-- `1`(数字1)：列出所有的单个CPU负载情况
-- `z`：top显示颜色
-    - `x`：类似高亮显示，在`z`模式下使用
-- `P`[大写]：按CPU占用高低顺序列出程序
+- `h`：获取 `top` 的命令帮助
+- `1`(数字1)：列出所有的单个 CPU 负载情况
+- `z`：`top` 显示颜色
+    - `x`：类似高亮显示，在 `z` 模式下使用
+- `P`[大写]：按 CPU 占用高低顺序列出程序
 - `M`[大写]：按内存占用高低顺序列出程序
 - `c`：显示进程命令的全路径与参数
 - `H`：显示线程，默认只显示进程
-- top默认按cpu占用排序，按F(大写)即可选择相应排序
-- `d`：top默认刷新时间是3s，使用d键可自定义刷新时间 
-- top选择列排序[高到低]的方法[在`z`颜色和`x`高亮模式下显示效果明显]：
+- `top` 默认按 cpu 占用排序，按F(大写)即可选择相应排序
+- `d`：`top` 默认刷新时间是 3s ，使用d键可自定义刷新时间 
+- top 选择列排序[高到低]的方法[在`z`颜色和`x`高亮模式下显示效果明显]：
     - shift+<：左选
     - shift+>：右选
-- `f`：可以指定top显示的内容，如ppid、swap等都可以选择显示
-    - 显示`Swap`利用率：按`f`键，然后按`p`键，回车即可看到Swap状态 
-- `k`：输入k之后可以kill掉指定的进程
+- `f`：可以指定 `top` 显示的内容，如 ppid、swap 等都可以选择显示
+    - 显示 `Swap` 利用率：按 `f` 键，然后按 `p` 键，回车即可看到 Swap 状态 
+- `k`：输入k之后可以 kill 掉指定的进程
 - `A`：分类显示各种系统资源高的进程。可用于快速识别系统上的性能要求极高的任务，__推荐使用__
-- `W`[大写]:将当前设置写入`~/.toprc`文件中。这是写top配置文件的推荐方法
+- `W`[大写]:将当前设置写入 `~/.toprc` 文件中。这是写 `top` 配置文件的推荐方法
  
 ## 三、参考
 
