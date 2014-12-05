@@ -4,7 +4,7 @@
 
 ## 一、nslookup
 
->nslookup is a tried and true program that has weathered the ages. nslookup has been deprecated and may be removed from future releases. There is not even a man page for this program.
+> nslookup is a tried and true program that has weathered the ages. nslookup has been deprecated and may be removed from future releases. There is not even a man page for this program.
 
 因此，这里不过多介绍。
 
@@ -85,7 +85,7 @@ version.bind descriptive text "9.8.1-P2"
 Usage: host [-aCdlriTwv] [-c class] [-N ndots] [-t type] [-W time]
             [-R number] [-m flag] hostname [server]
        -a is equivalent to -v -t ANY
-       -c specifies query class for non-IN data  搜索非网络数据时要指定要查找的类
+       -c specifies query class for non-IN data  # 搜索非网络数据时要指定要查找的类
        -C compares SOA records on authoritative nameservers
        -d is equivalent to -v
        -l lists all hosts in a domain, using AXFR
@@ -94,9 +94,9 @@ Usage: host [-aCdlriTwv] [-c class] [-N ndots] [-t type] [-W time]
        -r disables recursive processing
        -R specifies number of retries for UDP packets
        -s a SERVFAIL response should stop query
-       -t specifies the query type 指定要查询的记录类型
+       -t specifies the query type               # 指定要查询的记录类型
        -T enables TCP/IP mode
-       -v enables verbose output  输出更详细的信息
+       -v enables verbose output                 # 输出更详细的信息
        -w specifies to wait forever for a reply
        -W specifies how long to wait for a reply
        -4 use IPv4 query transport only
@@ -106,7 +106,7 @@ Usage: host [-aCdlriTwv] [-c class] [-N ndots] [-t type] [-W time]
 
 ## 三、dig
 
-`dig` 也是一个很强大的命令，相对host来说输出较为繁杂，如下：
+`dig` 也是一个很强大的命令，相对 host 来说输出较为繁杂，如下：
 
 ```
 $ dig www.google.com

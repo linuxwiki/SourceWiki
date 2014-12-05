@@ -1,4 +1,4 @@
-# openvpn基本搭建实例
+# OpenVPN 基本搭建实例
 
 OpenVPN 是一个用于创建虚拟专用网络加密通道的软件包，最早由 James Yonan 编写。OpenVPN 允许创建的 VPN 使用公开密钥、电子证书、或者用户名/密码来进行身份验证。
 
@@ -8,9 +8,9 @@ OpenVPN 是一个用于创建虚拟专用网络加密通道的软件包，最早
 
 本例以 CentOS 6 为例
 
-* [openvpn-2.3.1](http://swupdate.openvpn.org/community/releases/openvpn-2.3.1.tar.gz)
-* [lzo-2.06](http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz)
-* [最新版本的 openvpn-2.3.1 官方不再集成`easy-rsa`] Note that easy-rsa is no longer bundled with OpenVPN source code archives. To get it, visit the easy-rsa page on GitHub, or download it from our Linux software repositories.
+* [ openvpn-2.3.1 ](http://swupdate.openvpn.org/community/releases/openvpn-2.3.1.tar.gz)
+* [ lzo-2.06 ](http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz)
+* [ 最新版本的 openvpn-2.3.1 官方不再集成 `easy-rsa` ] Note that easy-rsa is no longer bundled with OpenVPN source code archives. To get it, visit the easy-rsa page on GitHub, or download it from our Linux software repositories.
 
 ```
 git clone https://github.com/OpenVPN/easy-rsa
@@ -18,13 +18,13 @@ git clone https://github.com/OpenVPN/easy-rsa
 
 ## 二、软件安装
 
-`openssl`、`openssl-devel`、`pam`、`pam-devel`安装
+`openssl`、`openssl-devel`、`pam`、`pam-devel` 安装
 
 ```
 yum install openssl openssl-devel pam pam-devel -y
 ```
 
-`lzo-2.06` 安装,下载相应软件包编译安装即可
+`lzo-2.06` 安装，下载相应软件包编译安装即可
 
 ```
 ./configure && make && make install
@@ -355,7 +355,7 @@ comp-lzo
 verb 3
 ```
 
-拷贝 Server 端生成的如下客户端证书到Linux客户端 /etc/openvpn 下(这里为了方便不再生成一套客户端证书了)
+拷贝 Server 端生成的如下客户端证书到 Linux 客户端 /etc/openvpn 下(这里为了方便不再生成一套客户端证书了)
 
 * kumu_client1.crt
 * kumu_client1.key
