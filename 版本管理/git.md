@@ -1,4 +1,6 @@
-# 分布式管理系统 Git
+
+1. 入门和学习Git的最好资料是：[pro git](http://iissnan.com/progit/)，本文档主要记录我们在开发、发布过程中一些常用的 Git 命令。
+2. [Git 风格指南](https://github.com/aseaday/git-style-guide)
 
 ## 一、Git基础
 
@@ -7,6 +9,14 @@
 + `git config user.name your_name` : 设置你的用户名, 提交会显示
 + `git config user.email your_email` : 设置你的邮箱
 + `git config core.quotepath false` : 解决中文文件名显示为数字问题
++ `git config --list` : 查看现有的配置
+
+几个 alias 方便操作:
+
+    git config --global alias.co checkout
+    git config --global alias.br branch
+    git config --global alias.ci commit
+    git config --global alias.st status
 
 ### 1.2 基本操作
 
@@ -18,6 +28,7 @@
 + `git checkout -- <file>` : 还原未暂存(staged)的文件
 + `git reset HEAD <file>...` : 取消暂存，那么还原一个暂存文件，应该是先 `reset` 后 `checkout`
 + `git stash` : 隐藏本地提交记录, 恢复的时候 `git stash pop`。这样可以在本地和远程有冲突的情况下，更新其他文件
++ `git log --name-status` : 查看详细的 log
 
 ### 1.3 分支
 
@@ -30,6 +41,12 @@
 + `git checkout --track origin/<origin-branch-name>` : 跟踪远程分支(创建跟踪远程分支，Git 在 `git push` 的时候不需要指定 `origin` 和 `branch-name` ，其实当我们 `clone` 一个 repo 到本地的时候，`master` 分支就是 origin/master 的跟踪分支，所以提交的时候直接 `git push`)。
 + `git push origin :<origin-branch-name>` : 删除远程分支
 
+**Tips**: 放弃所有本地提交/改动，强制更新:
+
+    git fetch --all
+    git reset --hard origin/master
+    git pull
+    
 ### 1.4 标签
 
 + `git tag -a <tagname> -m <message>` : 创建一个标签
@@ -37,16 +54,14 @@
 + `git show tagname`: 显示某个标签的详细信息
 + `git checkout -b <tag-name>` : 基于某个 tag 创建一个新的分支
 
-### 1.5 补丁
+### 1.5 回退到某一次提交
 
-先占个坑。
++ step 1: 使用 `git log` 查看提交的 hash 值
++ step 2: `git reset --hard hash`
 
-### 1.6 Git shortcuts/aliases
+可在本地回退到某一次提交，撤掉回退 `git pull` 即可。
 
-    git config --global alias.co checkout
-    git config --global alias.br branch
-    git config --global alias.ci commit
-    git config --global alias.st status
+如果想回退到远端分支的某一次提交，需要强制推送到远端分支: `git push origin master -f`。
 
 ## 二、知识点
 
@@ -149,8 +164,3 @@ Git的核心数是很简单的，就是一个链表(或者一棵树更准确一�
 
 *理论部分是我个人对 Git 的理解，难免有偏差，看看就可以了。*
 
-
-## 三、参考资料
-
-+ [Pro Git](http://iissnan.com/progit/)
-+ [Git shortcuts/aliases - How to create](http://alvinalexander.com/git/git-shortcuts-aliases-long-commands-how-to-create)

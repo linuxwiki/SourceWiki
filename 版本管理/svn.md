@@ -1,5 +1,3 @@
-# 版本管理工具: SVN
-
 本文由 [svn book 1.4](http://svndoc.iusesvn.com/svnbook/1.4) 整理而来。
 
 `svn help <SUBCOMMAND>`: 查看子命令用法、参数及行为方式。
@@ -52,6 +50,8 @@ SVN 忽略方法和 git 不同，git 是在本地加一个 `.gitigore` 即可，
 
 `svn propedit svn:ignore work_dir` : 在工作目录 work_dir 下添加过滤文件
 
+在个人目录下编辑 `.bash_profile` 文件, 添加 SVN\_EDITOR 环境变量, `export SVN_EDITOR=vim`.
+
 ### 3.3 外部定义
 
 引用场景：多个目录共享同一个目录。以游戏开发为例，UI、服务器、策划共享的数据表，这个时候就可以用到 *外部定义* 这个概念了。我理解外部定义就相当于 linux 下的软链接。
@@ -86,6 +86,11 @@ SVN 分支其实只是做了一份拷贝而已(svn copy), 但是它并不是物�
 
 [版本库管理](http://svndoc.iusesvn.com/svnbook/1.4/svn.reposadmin.html) 之后的章节感兴趣去看看(上面提供的命令足够应付大多数使用情况了)
 
+### 4.4 查看所有分支
+
+1. 在根目录下 `svn info` 找到版本库根路径，比如: `https://10.0.128.1/svn/HotCode`
+2. `svn ls https://10.0.128.1/svn/HotCode/branches` 就可以看到其他分支了
+
 ## 五、知识点
 
 ### 5.1 四种文件状态(svn status)
@@ -99,7 +104,7 @@ SVN 分支其实只是做了一份拷贝而已(svn copy), 但是它并不是物�
 
 这些关键字可以用来代替 `--revision(r)` 的数字参数，这会被 Subversion 解释到特定的修订版本号。
 
-+ `HEAD` : 版本库中最新的（或者是 "最年轻的"）版本。
++ `HEAD` : 版本库中最新的（或者是 "最年轻的）版本。
 + `BASE` : 工作拷贝中一个条目的修订版本号，如果这个版本在本地修改了，则“BASE版本”就是这个条目在本地未修改的版本。
 + `COMMITTED` : 项目最近修改的修订版本，与BASE相同或更早。
 + `PREV` : 一个项目最后修改版本之前的那个版本，技术上可以认为是COMMITTED -1。
@@ -108,3 +113,6 @@ SVN 分支其实只是做了一份拷贝而已(svn copy), 但是它并不是物�
 
 我感觉 SVN 和 Git 设计的本质区别在于 SVN 核心点在于它的目录，而 Git 的核心点在于它的 Commit(结点)。这也就说明了 SVN 可以 checkout 某一个目录，Git 不行。SVN 的分支可以理解成一个目录，而 Git 的分支只不过是某个 Commit 上的快照而已。
 
+## 六、常见问题
+
++ [svn diff: file marked as binary type](http://stackoverflow.com/questions/2634043/svn-diff-file-marked-as-binary-type)
