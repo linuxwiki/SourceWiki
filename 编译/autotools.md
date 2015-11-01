@@ -152,7 +152,7 @@ gather denitions in `aclocal.m4`.
 
 ### 2.3 autoreconf
 
-![autoreconf](../imaages/autoreconf.jpg)
+![autoreconf](../images/autoreconf.jpg)
 
 在实际应用中:
 
