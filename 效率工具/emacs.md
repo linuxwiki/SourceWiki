@@ -1,6 +1,10 @@
+# Emacs 教程
+
 世界上有三中程序员，一种是用 Vim 的，一种是用 Emacs 的，另外一种是用其它编辑器的。本文介绍 Emacs 的基本使用。
 
-# 一、Emacs24 的安装
+我的 Emacs 配置: https://gitcafe.com/JerryZhang/emacs-config.git
+
+## 一、安装
 
     wget https://github.com/mirrors/emacs/archive/emacs-24.3.92.zip
     unzip emacs-24.3.92.zip
@@ -9,10 +13,10 @@
     ./configure --without-makeinfo
     make -j2
     sudo make install
-    
+
 添加 `alias em='env TERM=xterm-256color emacs -nw` 到 `~/.bashrc` 中，这样就可以直接用 `em` 打开 Emacs 了。
 
-# 二、基本快捷键
+## 二、基本快捷键
 
 这里列出在没有打开任何 mode 的情况下，原生 Emacs 所支持的快捷键。
 
@@ -23,7 +27,7 @@
 + `C-z` : 挂起 Emacs
 + `C-x C-c`: 关闭 Emacs
 
-## 2.1 光标移动
+### 2.1 光标移动
 
 + `C-n` : 下一行
 + `C-p` : 上一行
@@ -41,7 +45,7 @@
 + `M-<` : 文件首
 + `M->` : 文件尾
 
-## 2.2 文档编辑
+### 2.2 文档编辑
 
 + `<Backspace>` : 向前删除一个字符
 + `C-d` `<DEL>` : 向后删除一个字符，我一般用 `C-d`
@@ -75,15 +79,14 @@
 + `C-x r t string <RET>`: Replace rectangle contents with string on each line (string-rectangle).
 + `M-x string-insert-rectangle <RET> string <RET>`: Insert string on each line of the rectangle.
 
-
-## 2.3 搜索
+### 2.3 搜索
 
 + `C-s` : 向前搜索
 + `C-r` : 向后操作
 + `C-g` : 回到搜索开始前的位置
 + `M-%` : 询问并替换
 
-## 2.4 文件操作(缓冲区)
+### 2.4 文件操作(缓冲区)
 
 Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你可以在多个文件中来回切换。
 
@@ -98,7 +101,7 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 + `M-x find-file-at-point` , `M-x ffap`
 + `C-x 5 0` : `delete-frame`
 
-## 2.5 窗口(WINDOWS)操作
+### 2.5 窗口(WINDOWS)操作
 
 + `C-x 1` : 只保留当前窗口
 + `C-x 2` : 水平切分
@@ -107,20 +110,20 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 + `C-x 0` : 关闭当前窗口(并不是删除buffer)
 + `C-x 4 C-f` : 在另外一个窗口打开文件 -> `find-file-other-window`
 
-## 2.6 查阅命令
+### 2.6 查阅命令
 
 + `M-x man` :
 + `M-x info` : 所有的 Emacs 手册
 
-## 2.7 代码编辑
+### 2.7 代码编辑
 
 + `M-;` : 块注释
 
-## 2.8 目录操作
+### 2.8 目录操作
 
 + `M-x dired` : 打开一个目录
 
-## 2.9 书签
+### 2.9 书签
 
 + `C-x r m` : 设置一个书签 -> `bookmark-set`
 + `C-x r b` : 跳转到一个书签 -> `bookmark-jump`
@@ -135,7 +138,7 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 	- `x` : 执行删除动作
 	- `u` : 撤销标记
 
-## 2.10 Occur
+### 2.10 Occur
 
 把所有的搜索结果都列到一个名为 `*Occur*` buffer 中。使用 `M-s o` 调用 `occur` 函数，搜索当前文档。
 
@@ -145,81 +148,70 @@ Emacs 可以打开很多文件，一个文件可以理解成一个 buffer，你�
 + `C-c C-c` : 退出编辑模式
 + `g` : 刷新搜索结果
 
-## 2.11 Dired
+### 2.11 Dired
 
 + `C-x d` : 选个一个目录，在当前窗口打开
 + `C-x 4 d` : 选一个目录，在另外一个目录打开
 + `i` : 打开子目录
 
-## 2.12 版本控制(Version Control)
+### 2.12 版本控制(Version Control)
 
 + `C-x v v` , `M-x vc-next-action` : 提交当前文件
 + `C-x v =` , `M-x vc-diff`
 + `C-x v ~` , `M-x vc-revision-other-window`: 与指定版本做比较
 + `C-x v l` , `M-x vc-print-log` : 查看日志
-+ `C-x v u` , `M-x vc-revert` 
++ `C-x v u` , `M-x vc-revert`
 + `C-x v C-h` : 查看所有可用的 vc 命令
 
-# 三、通用定制
+## 三、通用定制
 
 默认的 emacs 的快捷键有些不好用，比如 `c-x c-f` 时，没有任何提示。再如窗口切换使用 `c-x o`，当 buffer 多时，非常不方便，这一节介绍 emacs 通用的定制(不针对某种开发/编辑环境)。
 
-emacs 的配置文件为 `~/.emacs`，如果没有就 `touch` 一个，插件位置一般在 `~/.emacs.d`，如果没有就 `mkdir` 一个。Emacs 启动时会加载这些配置(也因此会减慢Emacs的启动速度，建议不要给Emacs装太多的插件，看着花哨但不实用)。
+emacs 启动时会会从两个地方找配置文件:
 
-用 `y/n` 代替 `yes/no`:
+1. `~/.emacs`
+2. `~/.emacs.d`
 
-    (fset 'yes-or-no-p 'y-or-n-p)
+因为隐藏文件多有不便，我目前的做法是从 gitcafe 上 clone 下来我的 emacs 配置以后，用 `ln -s` 添加一个软连接。
 
-设置编码为 UTF-8
+基本设置:
 
-    (setq locale-coding-system 'utf-8)
-    (set-terminal-coding-system 'utf-8)
-    (set-keyboard-coding-system 'utf-8)
-    (set-selection-coding-system 'utf-8)
-    (prefer-coding-system 'utf-8)
-
-`C-c e` 打开 eshell, `C-c l`清空 eshell:
-
-    (defun clear-eshell-buffer ()
-      (interactive)
-      (let ((inhibit-read-only t))
-        (delete-region (point-min) (point-max))))
-    (global-set-key (kbd "C-c l") 'clear-eshell-buffer)
-    (global-set-key (kbd "C-c e") 'eshell)
-
-tab -> 空格:
+    (fset 'yes-or-no-p 'y-or-n-p) ;; 用 `y/n` 代替 `yes/no`
+    (setq auto-save-default nil)
+    (setq inhibit-startup-message t)
+    (setq mouse-yank-at-point t)
+    (setq make-backup-files nil)
+    (setq create-lockfiles nil)
+    (column-number-mode t)
 
     (setq-default indent-tabs-mode nil)
-
-括号匹配、对齐、补全：
-
-    (show-paren-mode t)
-    (require 'electric)
-    (electric-indent-mode t)
-    (electric-pair-mode t)
-    (electric-layout-mode t)
-    
-
-保存时删除多余的空白字符:
-    
+    (setq-default tab-width 4)
+    (global-auto-revert-mode t)
     (add-hook 'before-save-hook 'delete-trailing-whitespace)
-    (setq show-trailing-whitespace t)
-
-去掉自动保存和备份:
-
-    (setq auto-save-default nil)
-    (setq make-backup-files nil)
-
+    (show-paren-mode t)         ;; 匹配括号高亮显示
+    (global-visual-line-mode 1) ;; 自动换行
 
 行号:
 
     (setq linum-format "%3d|")
-    (global-linum-mode 1)
+    ;;(global-linum-mode 1)
+    (global-set-key (kbd "M-s l") 'global-linum-mode)
 
-自动换行：
+代码缩进参考线:
 
-    (global-visual-line-mode 1)
-    (blink-cursor-mode -1)
+    (require 'fill-column-indicator)
+    (setq fci-rule-color "#eee")
+    (setq fci-rule-column 80)
+    (define-globalized-minor-mode
+      global-fci-mode fci-mode (lambda () (fci-mode 1)))
+    (global-fci-mode 1)
+
+常用快捷键:
+
+    (global-set-key [(f2)] 'grep)
+    (global-set-key [(f3)] 'eshell)
+    (global-set-key [(f4)] 'insert-current-date-time)
+    (global-set-key [(f5)] 'compile)
 
 使用 M-(1,2,3...9)窗口切换(依赖于 windows-numbering 插件):
 
@@ -229,96 +221,77 @@ tab -> 空格:
           (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
     (window-numbering-mode 1)
 
-Mini Buffer 优化(依赖 smex 插件，ido 是 Emacs 自带的):
-
-    ;; C-x f/b
-    (require 'ido)
-    (ido-mode t)
-    ;; M-x
-    (add-to-list 'load-path "~/.emacs.d/lisp/smex")
-    (require 'smex)
-    (smex-initialize)
-    (global-set-key (kbd "M-x") 'smex)
-    (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-
-使用 `ibuffer` 代替默认的 `list-buffers`:
-
-    (global-set-key (kbd "C-x C-b") 'ibuffer)
-
-`C-a` 跳转到句首，而不是行首:
+`C-a` 跳转到句首，而不是行首(目前我没用):
 
     (defun prelude-move-beginning-of-line (arg)
-      "Move point back to indentation of beginning of line.
-    
+    "Move point back to indentation of beginning of line.
+
     Move point to the first non-whitespace character on this line.
     If point is already there, move to the beginning of the line.
     Effectively toggle between the first non-whitespace character and
     the beginning of the line.
-    
+
     If ARG is not nil or 1, move forward ARG - 1 lines first. If
     point reaches the beginning or end of the buffer, stop there."
       (interactive "^p")
       (setq arg (or arg 1))
-    
+
       ;; Move lines first
       (when (/= arg 1)
         (let ((line-move-visual nil))
           (forward-line (1- arg))))
-    
+
       (let ((orig-point (point)))
         (back-to-indentation)
         (when (= orig-point (point))
           (move-beginning-of-line 1))))
-    
+
     (global-set-key (kbd "C-a") 'prelude-move-beginning-of-line)
 
-Tip:  `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便。
+Tip:  **`M-x eval-buffer` 可以使配置文件立即生效，调试非常方便。**
 
-# 四、高级定制
+## 四、高级定制
 
-这一节针对不同的应用，介绍一些插件。
+这一节针对不同的应用，介绍一些插件:
 
-## 4.1 代码参考线: [fill-column-indicator](https://github.com/alpaker/Fill-Column-Indicator)
+### 4.1 代码参考线
+
+fill-column-indicator: https://github.com/alpaker/Fill-Column-Indicator
 
     (require 'fill-column-indicator)
-    (setq fci-rule-color "#333") # 参考线颜色，我的配色是暗色的, 所以 #333 看着舒服一点
-    (setq fci-rule-column 80)    # 宽度设置为 80 
+    (setq fci-rule-color "#333")
+    (setq fci-rule-column 80)
     (define-globalized-minor-mode
       global-fci-mode fci-mode (lambda () (fci-mode 1)))
     (global-fci-mode 1)
 
-## 4.2 自动补全:
+### 4.2 自动补全
 
-### 4.2.1 [auto-complete](https://github.com/auto-complete/auto-complete)
+[auto-complete](https://github.com/auto-complete/auto-complete) 和  [yasnippet](https://github.com/capitaomorte/yasnippet).
 
     (require 'popup)
+
+    (require 'auto-complete)
     (require 'auto-complete-config)
     (add-to-list 'ac-dictionary-directories
                  "~/.emacs.d/auto-complete/dict")
     (ac-config-default)
-    (setq ac-use-quick-help nil)
-    (setq ac-ignore-case t)
-    (setq ac-menu-height 8)
-    
-    (setq ac-use-menu-map t)
-    (define-key ac-menu-map "\C-n" 'ac-next)
-    (define-key ac-menu-map "\C-p" 'ac-previous)
-    (global-set-key "\M-/" 'auto-complete)
+    (add-to-list 'ac-modes 'protobuf-mode)
 
-### 4.2.2 [Company mode](http://www.emacswiki.org/CompanyMode)
+    (require 'yasnippet)
+    (yas-global-mode 1)
 
-### 4.2.3 [yasnippet](https://github.com/capitaomorte/yasnippet)
 
-## 4.3 相同符号高亮: [highlight-symbol](https://github.com/nschum/highlight-symbol.el)
-
-用这个做查找也挺不错的!
+### 4.3 相同符号高亮: [highlight-symbol](https://github.com/nschum/highlight-symbol.el)
 
     (require 'highlight-symbol)
     (global-set-key (kbd "M--") 'highlight-symbol-at-point)
     (global-set-key (kbd "M-n") 'highlight-symbol-next)
     (global-set-key (kbd "M-p") 'highlight-symbol-prev)
 
-## 4.4 Markdown: [markdown-mode](http://jblevins.org/projects/markdown-mode/)
+Tips: **用这个做查找也挺不错的!**
+
+### 4.4 Markdown: [markdown-mode](http://jblevins.org/projects/markdown-mode/)
 
     (autoload 'markdown-mode "~/.emacs.d/lisp/markdown-mode/markdown-mode.el"
       "Major mode for editing Markdown files" t)
@@ -329,31 +302,35 @@ Tip:  `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便�
     (setq auto-mode-alist
           (cons '("\\.txt" . markdown-mode) auto-mode-alist))
 
-## 4.5 Python: [python.el](https://github.com/fgallina/python.el)
+### 4.5 Python: [python-mode]()
 
-推荐使用 python.el 而不是 [python-mode](https://github.com/klen/python-mode)。
+    (require 'python-mode)
 
-    (require 'python)
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (set (make-local-variable 'compile-command)
+                     (format "python %s" (file-name-nondirectory buffer-file-name)))))
 
-## 4.6 Google Protobuf Buffer: [protobuf-mode](http://code.google.com/p/protobuf/source/browse/trunk/editors/protobuf-mode.el?r=227)
+
+### 4.6 Google Protobuf Buffer: [protobuf-mode](http://code.google.com/p/protobuf/source/browse/trunk/editors/protobuf-mode.el?r=227)
 
     (require 'protobuf-mode)
     (add-to-list 'auto-mode-alist '("\\.proto$" . protobuf-mode))
 
-## 4.7 C++开发定制: xcscope + etags + c++-mode
+### 4.7 C++开发定制: xcscope + etags + c++-mode
 
     ;; 编译与调试
     (global-set-key [(f5)] 'compile)
-    
+
     (require 'xcscope)
     (cscope-setup)
-    
+
     (global-set-key [(f9)] 'ff-find-other-file)
-    
+
     (setq tab-stop-list ())
     (loop for x downfrom 40 to 1 do
           (setq tab-stop-list (cons (* x 4) tab-stop-list)))
-    
+
     (defconst my-c-style
       '(
         (c-tab-always-indent        . t)
@@ -379,10 +356,10 @@ Tip:  `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便�
         (c-echo-syntactic-information-p . t)
         )
       "My C Programming Style")
-    
+
     ;; offset customizations not in my-c-style
     (setq c-offsets-alist '((member-init-intro . ++)))
-    
+
     ;; Customizations for all modes in CC Mode.
     (defun my-c-mode-common-hook ()
       ;; add my personal style and set it for the current buffer
@@ -398,9 +375,9 @@ Tip:  `M-x eval-buffer` 可以使配置文件立即生效，调试非常方便�
       )
     (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
     (add-hook 'c-mode-hook 'hs-minor-mode)
-    
+
     (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-    
+
     ;; http://stackoverflow.com/questions/14668744/emacs-indent-for-c-class-method
     (defun vlad-cc-style()
       (c-set-offset 'inline-open '0)
@@ -438,7 +415,7 @@ etags 使用:
 
 + `F9` : 在头文件和对应源文件之间跳转: `(global-set-key [(f9)] 'ff-find-other-file)`
 
-## 4.8 [谷歌翻译](https://github.com/atykhonov/google-translate.git)
+### 4.8 [谷歌翻译](https://github.com/atykhonov/google-translate.git)
 
 
     (add-to-list 'load-path "~/.emacs.d/lisp/google-translate")
@@ -450,89 +427,78 @@ etags 使用:
 
 `C-c t` 打开翻译，我指定了英->中，中->英两种翻译模式。
 
-## 4.9 Expand region
+### 4.9 Expand region
 
 Github: [expand-region.el](https://github.com/magnars/expand-region.el)
 
     (require 'expand-region)
     (global-set-key (kbd "M-m") 'er/expand-region)
+    (global-set-key (kbd "M-s s") 'er/mark-symbol)
+    (global-set-key (kbd "M-s p") 'er/mark-outside-pairs)
+    (global-set-key (kbd "M-s P") 'er/mark-inside-pairs)
+    (global-set-key (kbd "M-s q") 'er/mark-outside-quotes)
+    (global-set-key (kbd "M-s Q") 'er/mark-inside-quotes)
+    (global-set-key (kbd "M-s m") 'er/mark-comment)
+    (global-set-key (kbd "M-s f") 'er/mark-defun)
 
+复制代码的时候很实用!
 
-## 4.10 Helm ()
+### 4.10 代码静态检查: flycheck
+
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+### 4.11 Helm
 
 github: [https://github.com/emacs-helm/helm](https://github.com/emacs-helm/helm)
 
-**极力推荐** 这个插件，对于 Emacs 的基本使用是一个质的提升。安装了 helm 你会发现 ido, smex 神马的简直弱爆了。
+**极力推荐** 这个插件，Emacs 最强插件，没有之一，装了了没装完全是两个档次的 Emacs。
 
-推荐阅读: [helm-intro](http://tuhdo.github.io/helm-intro.html) 
+wiki: https://github.com/emacs-helm/helm/wiki
 
-    (add-to-list 'load-path "~/.emacs.d/lisp/helm")
     (require 'helm)
-    
-    (setq helm-command-prefix-key "C-c h")
-    
     (require 'helm-config)
     (require 'helm-eshell)
-    (require 'helm-files)
-    (require 'helm-grep)
-    
-    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
-    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-    (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-    
-    (define-key helm-grep-mode-map (kbd "<return>")  'helm-grep-mode-jump-other-window)
-    (define-key helm-grep-mode-map (kbd "n")  'helm-grep-mode-jump-other-window-forward)
-    (define-key helm-grep-mode-map (kbd "p")  'helm-grep-mode-jump-other-window-backward)
-    
-    (setq
-     helm-google-suggest-use-curl-p t
-     helm-scroll-amount 4 ; scroll 4 lines other window using M-<next>/M-<prior>
-     helm-quick-update t ; do not display invisible candidates
-     helm-idle-delay 0.01 ; be idle for this many seconds, before updating in delayed sources.
-     helm-input-idle-delay 0.01 ; be idle for this many seconds, before updating candidate buffer
-     helm-ff-search-library-in-sexp t ; search for library in `require' and `declare-function' sexp.
-    
-     helm-split-window-default-side 'other ;; open helm buffer in another window
-     helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
-     helm-buffers-favorite-modes (append helm-buffers-favorite-modes
-                                         '(picture-mode artist-mode))
-     helm-candidate-number-limit 200 ; limit the number of displayed canidates
-     helm-M-x-requires-pattern 0     ; show all candidates when set to 0
-     helm-boring-file-regexp-list
-     '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "\\.i$") ; do not show these files in helm buffer
-     helm-ff-file-name-history-use-recentf t
-     helm-move-to-line-cycle-in-source t ; move to end or beginning of source
-                                            ; when reaching top or bottom of source.
-     ido-use-virtual-buffers t      ; Needed in helm-buffers-list
-     helm-buffers-fuzzy-matching t          ; fuzzy matching buffer names when non--nil
-                                            ; useful in helm-mini that lists buffers
-     )
-    
-    ;; Save current position to mark ring when jumping to a different place
-    (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
-    (helm-mode 1)
-    
-    (global-set-key (kbd "M-x") 'helm-M-x)
-    (global-set-key (kbd "C-x b") 'helm-mini)
-    (global-set-key (kbd "C-x C-f") 'helm-find-files)
-    (global-set-key (kbd "C-c h o") 'helm-occur)
-    (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-    
-    (require 'helm-eshell)
+
     (add-hook 'eshell-mode-hook
               #'(lambda ()
-                  (define-key eshell-mode-map (kbd "M-l")  'helm-eshell-history)))
-    
-    ;; C-c h / helm-find
-    ;; C-c h m man or woman
+                  (define-key eshell-mode-map (kbd "C-c C-l")  'helm-eshell-history)))
 
-## 4.last Emacs主题
+    (global-set-key (kbd "C-c h") 'helm-command-prefix)
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+    (define-key helm-map (kbd "C-z") 'helm-select-action)
+
+    (when (executable-find "curl")
+      (setq helm-google-suggest-use-curl-p t))
+
+    (setq helm-split-window-in-side-p           t
+          helm-move-to-line-cycle-in-source     t
+          helm-ff-search-library-in-sexp        t
+          helm-scroll-amount                    8
+          helm-ff-file-name-history-use-recentf t
+          )
+
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+    (global-set-key (kbd "C-x b") 'helm-mini)
+    (global-set-key (kbd "C-c h o") 'helm-occur)
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+    (setq helm-M-x-fuzzy-match t)
+    ;;(helm-autoresize-mode 1)
+    (helm-mode 1)
+
+    (global-set-key [(f6)] 'helm-imenu)
+
+
+### 4.last Emacs主题
 
 把 主题 放到最后，是想告诉大家，使用 Emacs(或者其它任何工具) 时，不要花时间在这些炫酷的东西上面，还是要聚焦于实用和高效。Emacs24自带了几款主题(Emacs23没有的哦)，使用 `M-x customize-theme` 回车可查看配色效果。
 
 也可以在学习资源中的 Emacs Theme 中找一款自己喜欢的。
 
-# 五、学习资源 
+## 五、学习资源
 
 一些学习资源推荐，也是本文档的参考资料。
 
@@ -547,4 +513,3 @@ github: [https://github.com/emacs-helm/helm](https://github.com/emacs-helm/helm)
 + [Emacs快速参考](http://jianlee.ylinux.org/Computer/Emacs/emacsBFE99F8FE883.html)
 + [Case Conversion Commands](http://www.gnu.org/software/emacs/manual/html_node/emacs/Case.html)
 + [曹乐: 在Emacs下用C/C++编程](http://www.caole.net/diary/emacs_write_cpp.html)
-
