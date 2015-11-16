@@ -3,7 +3,7 @@
 uwsgi 配置模版:
 
     [uwsgi]
-    procname-prefix = [monitor]--
+    procname-prefix = xxxxx                      # 进程前缀，方便 grep 区分
     chdir           = /data/${proj_name}
     wsgi-file       = ${proj_name}/wsgi.py
     socket          = 127.0.0.1:${port}
